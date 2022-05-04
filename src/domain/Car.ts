@@ -1,7 +1,8 @@
 import { Entity } from "./core/Entity";
 
 type CarProps = {
-  nome: string;
+  marca: string;
+  modelo: string;
   placa: string;
 };
 

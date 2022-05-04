@@ -1,8 +1,9 @@
 import { Entity } from "./core/Entity";
 
 type ClientProps = {
-  name: string;
-  placa: string;
+  rg: string;
+  nome: string;
+  placaCarro: string;
 };
 
 export class Client extends Entity<ClientProps> {
