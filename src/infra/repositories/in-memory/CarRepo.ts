@@ -27,7 +27,7 @@ export class InMemoryCarRepository implements CarRepository {
     });
 
     if (!res) {
-      return new Error("Vaga não encontrada.");
+      return new Error("Carro não encontrada.");
     }
 
     return res;

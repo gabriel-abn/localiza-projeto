@@ -3,7 +3,7 @@ import { Entity } from "./core/Entity";
 type ClientProps = {
   rg: string;
   nome: string;
-  placaCarro: string;
+  placaCarro?: string;
 };
 
 export class Client extends Entity<ClientProps> {
