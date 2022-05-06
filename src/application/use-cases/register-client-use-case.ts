@@ -9,18 +9,9 @@ type RegisterClientUseCaseDTO = {
 };
 
 export class RegisterClientUseCase {
-  constructor(
-    private readonly clientRepo: ClientRepository,
-    private readonly carroRepo: CarRepository
-  ) {}
+  constructor(private readonly clientRepo: ClientRepository) {}
 
   async execute(props: RegisterClientUseCaseDTO) {
-    const car = await this.carroRepo
-      .procurarPorPlaca(props.placaCarro)
-      .catch(() => {
-        throw new Error("Carro não encontrado");
-      });
-
     const client = Client.create({ ...props });
     const response = this.clientRepo
       .registrar(client)

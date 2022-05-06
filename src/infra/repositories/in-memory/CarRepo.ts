@@ -14,7 +14,7 @@ export class InMemoryCarRepository implements CarRepository {
     });
 
     if (!res) {
-      throw new Error("Não foi possível registrar vaga.");
+      throw new Error("Não foi possível registrar carro.");
     }
 
     return res;
@@ -27,7 +27,7 @@ export class InMemoryCarRepository implements CarRepository {
     });
 
     if (!res) {
-      return new Error("Carro não encontrada.");
+      return new Error("Carro não encontrado.");
     }
 
     return res;

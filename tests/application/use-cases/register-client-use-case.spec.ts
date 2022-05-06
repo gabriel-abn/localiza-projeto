@@ -11,10 +11,8 @@ describe("Register client using in memory repository", () => {
       rg: "1234567",
     });
 
-    const carroRepo = new InMemoryCarRepository();
-
     const repo = new InMemoryClientRepository();
-    const sut = new RegisterClientUseCase(repo, carroRepo);
+    const sut = new RegisterClientUseCase(repo);
 
     const result = await sut.execute(userMock.props).then((res) => {
       return res;
@@ -22,63 +20,5 @@ describe("Register client using in memory repository", () => {
 
     expect(result).toBeInstanceOf(Client);
     expect(result).not.toHaveProperty("props.placaCarro");
-  });
-  it("should register client with existent 'placa'", async () => {
-    const userMock = Client.create({
-      nome: "Teste cliente",
-      placaCarro: "ABC123",
-      rg: "1234567",
-    });
-
-    const carroMock = Car.create({
-      placa: "ABC123",
-      marca: "Fiat",
-      modelo: "Uno",
-    });
-
-    const carroRepo = new InMemoryCarRepository();
-    const resultCarro = await carroRepo.registrar(carroMock);
-
-    const repo = new InMemoryClientRepository();
-
-    const sut = new RegisterClientUseCase(repo, carroRepo);
-    const response = await sut.execute(userMock.props).then((res) => {
-      return res;
-    });
-
-    expect(response).toBeInstanceOf(Client);
-    expect(response).toHaveProperty(
-      "props.placaCarro",
-      resultCarro.props.placa
-    );
-  });
-  it("should not register client with wrong 'placa'", async () => {
-    const userMock = Client.create({
-      nome: "Teste cliente",
-      placaCarro: "ABC123",
-      rg: "1234567",
-    });
-
-    const carroMock = Car.create({
-      placa: "ABC000",
-      marca: "Fiat",
-      modelo: "Uno",
-    });
-
-    const carroRepo = new InMemoryCarRepository();
-    const resultCarro = await carroRepo.registrar(carroMock);
-
-    const repo = new InMemoryClientRepository();
-
-    const sut = new RegisterClientUseCase(repo, carroRepo);
-    const response = await sut.execute(userMock.props).then((res) => {
-      return res;
-    });
-
-    expect(response).toBeInstanceOf(Client);
-    expect(response).not.toHaveProperty(
-      "props.placaCarro",
-      resultCarro.props.placa
-    );
   });
 });
