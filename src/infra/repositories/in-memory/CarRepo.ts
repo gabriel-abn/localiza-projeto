@@ -1,5 +1,5 @@
 import { CarRepository } from "../../../application/repository/CarRepository";
-import { Car } from "../../../domain/Car";
+import { Car, CarroStatus } from "../../../domain/Car";
 
 export class InMemoryCarRepository implements CarRepository {
   private itens: Car[] = [];
@@ -31,5 +31,34 @@ export class InMemoryCarRepository implements CarRepository {
     }
 
     return res;
+  }
+  async aluguelDeCarro(carro: Car): Promise<Car> {
+    const res = this.itens.map((car) => {
+      if (car.props.placa == carro.props.placa) {
+        car.props.status = CarroStatus.indisponivel;
+      }
+      return car;
+    });
+
+    return res.find((car) => {
+      if (car.props.placa == carro.props.placa) {
+        return car;
+      }
+    });
+  }
+
+  async reservaDeCarro(carro: Car): Promise<Car> {
+    const res = this.itens.map((car) => {
+      if (car.props.placa == carro.props.placa) {
+        car.props.status = CarroStatus.reservado;
+      }
+      return car;
+    });
+
+    return res.find((car) => {
+      if (car.props.placa == carro.props.placa) {
+        return car;
+      }
+    });
   }
 }

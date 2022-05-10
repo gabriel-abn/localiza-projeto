@@ -1,10 +1,16 @@
 import { Client } from "../../domain/Client";
-import { CarRepository } from "../repository/CarRepository";
 import { ClientRepository } from "../repository/ClientRepository";
 
 type RegisterClientUseCaseDTO = {
-  rg: string;
   nome: string;
+  cpf: string;
+  cnh: string;
+  dataNascimento: string;
+  endereco: string;
+  telefone: string;
+  email: string;
+  cartao: string;
+  senhaAcesso?: string;
   placaCarro?: string;
 };
 

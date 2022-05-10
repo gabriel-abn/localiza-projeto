@@ -1,10 +1,12 @@
-import { Car } from "../../domain/Car";
+import { Car, CarroStatus } from "../../domain/Car";
 import { CarRepository } from "../repository/CarRepository";
 
 type RegisterCarUseCaseDTO = {
   modelo: string;
   marca: string;
   placa: string;
+  status: string;
+  cor: string;
 };
 
 export class RegisterCarUseCase {

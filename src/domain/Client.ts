@@ -1,8 +1,15 @@
 import { Entity } from "./core/Entity";
 
 type ClientProps = {
-  rg: string;
   nome: string;
+  cpf: string;
+  cnh: string;
+  dataNascimento: string;
+  endereco: string;
+  telefone: string;
+  email: string;
+  cartao: string;
+  senhaAcesso?: string;
   placaCarro?: string;
 };
 

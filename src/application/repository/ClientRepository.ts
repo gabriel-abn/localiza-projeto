@@ -2,6 +2,7 @@ import { Client } from "../../domain/Client";
 
 export interface ClientRepository {
   registrar(cliente: Client): Promise<Client>;
-  procurarPorRG(rg: string): Promise<Client | Error>;
-  aluguelDeCarro(cliente: Client, placaCarro: string): Promise<Client>;
+  procurarPorCNH(rg: string): Promise<Client | Error>;
+  alugarCarro(cliente: Client, placaCarro: string): Promise<Client>;
+  reservarCarro(cliente: Client, placaCarro: string): Promise<Client>;
 }

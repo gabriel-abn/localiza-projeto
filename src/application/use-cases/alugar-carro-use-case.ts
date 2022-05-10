@@ -1,4 +1,4 @@
-import { Car } from "../../domain/Car";
+import { Car, CarroStatus } from "../../domain/Car";
 import { Client } from "../../domain/Client";
 import { CarRepository } from "../repository/CarRepository";
 import { ClientRepository } from "../repository/ClientRepository";
@@ -16,7 +16,7 @@ export class AlugarCarroUseCase {
 
   async execute(props: AlugarCarroUseCaseDTO) {
     const client = await this.clientRepo
-      .procurarPorRG(props.rg)
+      .procurarPorCNH(props.rg)
       .then((res: Client) => {
         return res;
       })
@@ -40,8 +40,15 @@ export class AlugarCarroUseCase {
       return new Error(car.message);
     }
 
+    if (
+      car.props.status == CarroStatus.indisponivel ||
+      car.props.status == CarroStatus.reservado
+    ) {
+      return new Error("Carro já está em uso.");
+    }
+
     const response = await this.clientRepo
-      .aluguelDeCarro(client, car.props.placa)
+      .alugarCarro(client, car.props.placa)
       .then((res) => {
         return res;
       });
