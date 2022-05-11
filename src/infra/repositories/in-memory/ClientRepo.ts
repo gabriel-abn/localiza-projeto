@@ -19,15 +19,15 @@ export class InMemoryClientRepository implements ClientRepository {
 
     return res;
   }
-  async procurarPorCNH(rg: string): Promise<Client | Error> {
+  async procurarPorCNH(cnh: string): Promise<Client | Error> {
     const response = this.itens.find((res) => {
-      if (res.props.cpf == rg) {
+      if (res.props.cnh == cnh) {
         return res;
       }
     });
 
     if (!response) {
-      return new Error("Vaga não encontrada.");
+      return new Error("Cliente não encontrado.");
     }
 
     return response;

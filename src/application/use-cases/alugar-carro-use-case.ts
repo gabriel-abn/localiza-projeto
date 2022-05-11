@@ -4,7 +4,7 @@ import { CarRepository } from "../repository/CarRepository";
 import { ClientRepository } from "../repository/ClientRepository";
 
 type AlugarCarroUseCaseDTO = {
-  rg: string;
+  cnh: string;
   placaCarro: string;
 };
 
@@ -16,7 +16,7 @@ export class AlugarCarroUseCase {
 
   async execute(props: AlugarCarroUseCaseDTO) {
     const client = await this.clientRepo
-      .procurarPorCNH(props.rg)
+      .procurarPorCNH(props.cnh)
       .then((res: Client) => {
         return res;
       })
@@ -47,11 +47,17 @@ export class AlugarCarroUseCase {
       return new Error("Carro já está em uso.");
     }
 
-    const response = await this.clientRepo
-      .alugarCarro(client, car.props.placa)
-      .then((res) => {
-        return res;
-      });
+    const response = {
+      cliente: await this.clientRepo
+        .alugarCarro(client, car.props.placa)
+        .then((res) => {
+          return res;
+        }),
+      carro: await this.carRepo
+        .aluguelDeCarro(car)
+        .then((res: Car) => res)
+        .catch((err: Error) => err),
+    };
 
     return response;
   }
