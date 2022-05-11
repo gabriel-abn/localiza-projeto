@@ -5,4 +5,5 @@ export interface CarRepository {
   procurarPorPlaca(placa: string): Promise<Car | Error>;
   aluguelDeCarro(carro: Car): Promise<Car>;
   reservaDeCarro(carro: Car): Promise<Car>;
+  liberarCarro(carro: Car): Promise<Car>;
 }

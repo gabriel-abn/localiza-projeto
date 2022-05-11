@@ -5,4 +5,5 @@ export interface ClientRepository {
   procurarPorCNH(rg: string): Promise<Client | Error>;
   alugarCarro(cliente: Client, placaCarro: string): Promise<Client>;
   reservarCarro(cliente: Client, placaCarro: string): Promise<Client>;
+  entregarCarro(cliente: Client): Promise<Client>;
 }

@@ -60,4 +60,18 @@ export class InMemoryClientRepository implements ClientRepository {
 
     return response;
   }
+  async entregarCarro(cliente: Client): Promise<Client> {
+    this.itens.map((obj) => {
+      if (obj.props.cpf == cliente.props.cpf) {
+        obj.props.placaCarro = "";
+      }
+    });
+    const response = this.itens.find((res) => {
+      if (res.props.cpf == cliente.props.cpf) {
+        return res;
+      }
+    });
+
+    return response;
+  }
 }

@@ -61,4 +61,18 @@ export class InMemoryCarRepository implements CarRepository {
       }
     });
   }
+  async liberarCarro(carro: Car): Promise<Car> {
+    const res = this.itens.map((car) => {
+      if (car.props.placa == carro.props.placa) {
+        car.props.status = CarroStatus.disponivel;
+      }
+      return car;
+    });
+
+    return res.find((car) => {
+      if (car.props.placa == carro.props.placa) {
+        return car;
+      }
+    });
+  }
 }

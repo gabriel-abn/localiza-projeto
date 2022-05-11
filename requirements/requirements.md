@@ -41,14 +41,22 @@
 - [x] Executar aluguel de carro
   - [x] Busca de cliente no sistema
   - [x] Busca de carro existente no sistema
-- [ ] Realizar devolução do veículo
+- [x] Realizar devolução do veículo
+
+## Testes
+
+- [x] Inserção de veículo
+- [x] Cadastro de cliente
+- [x] Reserva de veículo
+- [x] Aluguel de veículo
+- [ ] Devolução de veículo
 
 # Releases
 
 ## Release v1.0
 
+- [x] DA-05
+- [x] DA-07
 - [ ] DA-11
 - [ ] DA-12
-- [ ] DA-05
-- [ ] DA-07
 - [ ] DA-15

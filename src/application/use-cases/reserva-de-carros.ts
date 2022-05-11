@@ -51,5 +51,7 @@ export class ReservaDeCarroUseCase {
         return res;
       }),
     };
+
+    return reserva;
   }
 }
