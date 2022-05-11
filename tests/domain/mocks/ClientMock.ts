@@ -10,5 +10,5 @@ export const mockCliente = (placa?: string): Client =>
     endereco: "Rua Francisco Teles, 41",
     telefone: "983989350",
     cpf: "1234567",
-    placaCarro: placa,
+    placaCarro: placa || "LIVRE",
   });

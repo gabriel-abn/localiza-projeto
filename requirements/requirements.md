@@ -49,7 +49,7 @@
 - [x] Cadastro de cliente
 - [x] Reserva de veículo
 - [x] Aluguel de veículo
-- [ ] Devolução de veículo
+- [x] Devolução de veículo
 
 # Releases
 

@@ -1,5 +1,4 @@
 import { AlugarCarroUseCase } from "../../../src/application/use-cases/alugar-carro-use-case";
-import { RegisterClientUseCase } from "../../../src/application/use-cases/register-client-use-case";
 import { Car, CarroStatus } from "../../../src/domain/Car";
 import { Client } from "../../../src/domain/Client";
 import { InMemoryCarRepository } from "../../../src/infra/repositories/in-memory/CarRepo";

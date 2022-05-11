@@ -16,6 +16,7 @@ type ClientProps = {
 export class Client extends Entity<ClientProps> {
   constructor(props: ClientProps, _id?: string) {
     super(props, _id);
+    this.props.placaCarro = "LIVRE";
   }
 
   static create(props: ClientProps, _id?: string) {
