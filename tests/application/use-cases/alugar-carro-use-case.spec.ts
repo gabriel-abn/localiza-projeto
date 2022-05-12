@@ -3,13 +3,14 @@ import { Car, CarroStatus } from "../../../src/domain/Car";
 import { Client } from "../../../src/domain/Client";
 import { InMemoryCarRepository } from "../../../src/infra/repositories/in-memory/CarRepo";
 import { InMemoryClientRepository } from "../../../src/infra/repositories/in-memory/ClientRepo";
+import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
 import {
   mockCarroDisponivel,
   mockCarroIndisponivel,
 } from "../../domain/mocks/CarMocks";
 import { mockCliente } from "../../domain/mocks/ClientMock";
 
-describe("Aluguel de carros", () => {
+describe("Aluguel de carros em repositório em memória", () => {
   it("deve alterar o status do carro, e a placa deve constar no registro do cliente", async () => {
     const userMock = mockCliente();
 
@@ -92,4 +93,18 @@ describe("Aluguel de carros", () => {
 
     expect(response).toBeInstanceOf(Error);
   });
+});
+
+describe("Aluguel de carros em banco de dados", () => {
+  beforeAll(async () => {
+    await prismaClient().$executeRaw`DELETE FROM deslocadb.Cliente`;
+
+    const carroDisponivel = await prismaClient().carro.create({
+      data: { ...mockCarroDisponivel().props },
+    });
+    const cliente = await prismaClient().cliente.create({
+      data: { ...mockCliente(mockCarroDisponivel().props.placa).props },
+    });
+  });
+  it("deve acessar o banco de dados e alterar o status do carro e o responsável do carro", async () => {});
 });

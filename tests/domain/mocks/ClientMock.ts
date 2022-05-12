@@ -1,6 +1,6 @@
 import { Client } from "../../../src/domain/Client";
 
-export const mockCliente = (placa?: string): Client =>
+export const mockCliente = (placaCarro?: string): Client =>
   Client.create({
     nome: "Teste cliente",
     cartao: "12345678",
@@ -10,5 +10,6 @@ export const mockCliente = (placa?: string): Client =>
     endereco: "Rua Francisco Teles, 41",
     telefone: "983989350",
     cpf: "1234567",
-    placaCarro: placa || "LIVRE",
+    placa: placaCarro || "LIVRE",
+    senhaAcesso: "",
   });

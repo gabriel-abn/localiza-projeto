@@ -10,8 +10,8 @@ type RegisterClientUseCaseDTO = {
   telefone: string;
   email: string;
   cartao: string;
-  senhaAcesso?: string;
-  placaCarro?: string;
+  senhaAcesso: string;
+  placa: string;
 };
 
 export class RegisterClientUseCase {

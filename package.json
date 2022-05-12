@@ -9,5 +9,9 @@
   },
   "scripts": {
     "test": "jest --max-workers=50%"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.14.0",
+    "prisma": "^3.14.0"
   }
 }

@@ -1,6 +1,6 @@
 import { Entity } from "./core/Entity";
 
-type ClientProps = {
+export type ClientDTO = {
   nome: string;
   cpf: string;
   cnh: string;
@@ -9,17 +9,17 @@ type ClientProps = {
   telefone: string;
   email: string;
   cartao: string;
-  senhaAcesso?: string;
-  placaCarro?: string;
+  senhaAcesso: string;
+  placa: string;
 };
 
-export class Client extends Entity<ClientProps> {
-  constructor(props: ClientProps, _id?: string) {
+export class Client extends Entity<ClientDTO> {
+  constructor(props: ClientDTO, _id?: string) {
     super(props, _id);
-    this.props.placaCarro = "LIVRE";
+    this.props.placa = "LIVRE";
   }
 
-  static create(props: ClientProps, _id?: string) {
+  static create(props: ClientDTO, _id?: string) {
     return new Client(props, _id);
   }
 }

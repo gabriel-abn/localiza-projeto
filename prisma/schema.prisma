@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  nome           String
+  cpf            String
+  cnh            String      @id
+  dataNascimento DateTime
+  endereco       String
+  telefone       String
+  email          String
+  cartao         String
+  senhaAcesso    String
+  placa          Carro       @relation(fields: [carroPlaca], references: [placa])
+  carroPlaca     String
+  Historico      Historico[]
+}
+
+model Carro {
+  marca     String
+  modelo    String
+  placa     String      @id
+  status    String
+  cor       String
+  Cliente   Cliente[]
+  Historico Historico[]
+}
+
+model Historico {
+  cliente       Cliente   @relation(fields: [clienteCnh], references: [cnh])
+  carro         Carro     @relation(fields: [carroPlaca], references: [placa], onUpdate: Cascade)
+  clienteCnh    String
+  carroPlaca    String
+  id            String    @id @default(uuid())
+  dataAlocacao  DateTime  @default(now())
+  dataDevolucao DateTime?
+}
