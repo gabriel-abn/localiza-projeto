@@ -6,7 +6,7 @@ export enum CarroStatus {
   indisponivel = "INDISPONIVEL",
 }
 
-type CarProps = {
+export type CarroDTO = {
   marca: string;
   modelo: string;
   placa: string;
@@ -14,12 +14,12 @@ type CarProps = {
   cor: string;
 };
 
-export class Car extends Entity<CarProps> {
-  constructor(props: CarProps, _id?: string) {
+export class Car extends Entity<CarroDTO> {
+  constructor(props: CarroDTO, _id?: string) {
     super(props, _id);
   }
 
-  static create(props: CarProps, _id?: string) {
+  static create(props: CarroDTO, _id?: string) {
     return new Car(props, _id);
   }
 }

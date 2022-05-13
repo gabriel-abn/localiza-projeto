@@ -1,4 +1,4 @@
-import { Car, CarroStatus } from "../../domain/Car";
+import { Car, CarroDTO } from "../../domain/Car";
 import { CarRepository } from "../repository/CarRepository";
 
 type RegisterCarUseCaseDTO = {
@@ -17,7 +17,7 @@ export class RegisterCarUseCase {
 
     const response = await this.carRepo
       .registrar(car)
-      .then((res) => {
+      .then((res: CarroDTO) => {
         return res;
       })
       .catch((err) => {

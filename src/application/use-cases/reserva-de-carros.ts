@@ -1,7 +1,11 @@
+import { CarroDTO } from "../../domain/abstract/Carro";
+import { ClienteDTO } from "../../domain/abstract/Cliente";
 import { Car } from "../../domain/Car";
 import { Client } from "../../domain/Client";
 import { CarRepository } from "../repository/CarRepository";
 import { ClientRepository } from "../repository/ClientRepository";
+import { IPrismaCarRepository } from "../repository/prisma/PrismaCarRepository";
+import { IPrismaClientRepository } from "../repository/prisma/PrismaClientRepository";
 
 type ReservaDeCarroUseCaseDTO = {
   placaCarro: string;
@@ -10,14 +14,14 @@ type ReservaDeCarroUseCaseDTO = {
 
 export class ReservaDeCarroUseCase {
   constructor(
-    private readonly carRepo: CarRepository,
-    private readonly clientRepo: ClientRepository
+    private readonly carRepo: IPrismaCarRepository,
+    private readonly clientRepo: IPrismaClientRepository
   ) {}
 
   async execute(props: ReservaDeCarroUseCaseDTO) {
     const carro = await this.carRepo
       .procurarPorPlaca(props.placaCarro)
-      .then((car: Car) => {
+      .then((car: CarroDTO) => {
         return car;
       })
       .catch((err: Error) => {
@@ -30,7 +34,7 @@ export class ReservaDeCarroUseCase {
 
     const cliente = await this.clientRepo
       .procurarPorCNH(props.cnh)
-      .then((client: Client) => {
+      .then((client: ClienteDTO) => {
         return client;
       })
       .catch((err: Error) => {

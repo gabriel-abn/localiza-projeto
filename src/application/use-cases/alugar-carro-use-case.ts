@@ -1,5 +1,5 @@
-import { Car, CarroStatus } from "../../domain/Car";
-import { Client } from "../../domain/Client";
+import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
+import { Client, ClienteDTO } from "../../domain/Client";
 import { CarRepository } from "../repository/CarRepository";
 import { ClientRepository } from "../repository/ClientRepository";
 
@@ -15,47 +15,53 @@ export class AlugarCarroUseCase {
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
-    const client = await this.clientRepo
+    const cliente = await this.clientRepo
       .procurarPorCNH(props.cnh)
-      .then((res: Client) => {
-        return res;
-      })
-      .catch((err) => {
-        return err;
-      });
-
-    if (client instanceof Error) {
-      return new Error(client.message);
-    }
-    const car = await this.carRepo
-      .procurarPorPlaca(props.placaCarro)
-      .then((res: Car) => {
+      .then((res: ClienteDTO) => {
         return res;
       })
       .catch((err: Error) => {
         return err;
       });
 
-    if (car instanceof Error) {
-      return new Error(car.message);
+    if (cliente instanceof Error) {
+      return new Error(cliente.message);
+    }
+    const carro = await this.carRepo
+      .procurarPorPlaca(props.placaCarro)
+      .then((res: CarroDTO) => {
+        return res;
+      })
+      .catch((err: Error) => {
+        return err;
+      });
+
+    if (carro instanceof Error) {
+      return new Error(carro.message);
     }
 
+    console.log(carro);
+
     if (
-      car.props.status == CarroStatus.indisponivel ||
-      car.props.status == CarroStatus.reservado
+      carro.status == CarroStatus.indisponivel ||
+      carro.status == CarroStatus.reservado
     ) {
       return new Error("Carro já está em uso.");
     }
+    const request = {
+      client: Client.create(cliente),
+      car: Car.create(carro),
+    };
 
     const response = {
       cliente: await this.clientRepo
-        .alugarCarro(client, car.props.placa)
+        .alugarCarro(request.client, request.car.props.placa)
         .then((res) => {
           return res;
         }),
       carro: await this.carRepo
-        .aluguelDeCarro(car)
-        .then((res: Car) => res)
+        .aluguelDeCarro(request.car)
+        .then((res: CarroDTO) => res)
         .catch((err: Error) => err),
     };
 

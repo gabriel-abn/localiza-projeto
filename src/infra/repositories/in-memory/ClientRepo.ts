@@ -35,7 +35,7 @@ export class InMemoryClientRepository implements ClientRepository {
   async alugarCarro(cliente: Client, placaCarro: string): Promise<Client> {
     this.itens.map((obj) => {
       if (obj.props.cpf == cliente.props.cpf) {
-        obj.props.placa = placaCarro;
+        obj.props.carroPlaca = placaCarro;
       }
     });
     const response = this.itens.find((res) => {
@@ -49,7 +49,7 @@ export class InMemoryClientRepository implements ClientRepository {
   async reservarCarro(cliente: Client, placaCarro: string): Promise<Client> {
     this.itens.map((obj) => {
       if (obj.props.cpf == cliente.props.cpf) {
-        obj.props.placa = placaCarro;
+        obj.props.carroPlaca = placaCarro;
       }
     });
     const response = this.itens.find((res) => {
@@ -63,7 +63,7 @@ export class InMemoryClientRepository implements ClientRepository {
   async entregarCarro(cliente: Client): Promise<Client> {
     this.itens.map((obj) => {
       if (obj.props.cpf == cliente.props.cpf) {
-        obj.props.placa = "LIVRE";
+        obj.props.carroPlaca = "LIVRE";
       }
     });
     const response = this.itens.find((res) => {

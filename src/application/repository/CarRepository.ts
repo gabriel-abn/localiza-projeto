@@ -1,9 +1,9 @@
-import { Car } from "../../domain/Car";
+import { Car, CarroDTO } from "../../domain/Car";
 
 export interface CarRepository {
-  registrar(carro: Car): Promise<Car>;
-  procurarPorPlaca(placa: string): Promise<Car | Error>;
-  aluguelDeCarro(carro: Car): Promise<Car>;
-  reservaDeCarro(carro: Car): Promise<Car>;
-  liberarCarro(carro: Car): Promise<Car>;
+  registrar(carro: Car): Promise<CarroDTO>;
+  procurarPorPlaca(placa: string): Promise<CarroDTO | Error>;
+  aluguelDeCarro(carro: Car): Promise<CarroDTO>;
+  reservaDeCarro(carro: Car): Promise<CarroDTO>;
+  liberarCarro(carro: Car): Promise<CarroDTO>;
 }

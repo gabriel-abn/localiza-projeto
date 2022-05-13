@@ -5,13 +5,13 @@ type RegisterClientUseCaseDTO = {
   nome: string;
   cpf: string;
   cnh: string;
-  dataNascimento: string;
+  dataNascimento: Date;
   endereco: string;
   telefone: string;
   email: string;
   cartao: string;
   senhaAcesso: string;
-  placa: string;
+  carroPlaca: string;
 };
 
 export class RegisterClientUseCase {
@@ -19,7 +19,7 @@ export class RegisterClientUseCase {
 
   async execute(props: RegisterClientUseCaseDTO) {
     const client = Client.create({ ...props });
-    const response = this.clientRepo
+    const response = await this.clientRepo
       .registrar(client)
       .then((res) => {
         return res;

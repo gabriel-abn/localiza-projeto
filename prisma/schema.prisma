@@ -20,8 +20,8 @@ model Cliente {
   email          String
   cartao         String
   senhaAcesso    String
-  placa          Carro       @relation(fields: [carroPlaca], references: [placa])
-  carroPlaca     String
+  placa          Carro?      @relation(fields: [carroPlaca], references: [placa])
+  carroPlaca     String?
   Historico      Historico[]
 }
 

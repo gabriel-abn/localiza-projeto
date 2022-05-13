@@ -1,8 +1,10 @@
 import { DevolucaoVeiculoUseCase } from "../../../src/application/use-cases/devolucao-veiculo";
-import { Car, CarroStatus } from "../../../src/domain/Car";
-import { Client } from "../../../src/domain/Client";
+import { Car, CarroStatus, CarroDTO } from "../../../src/domain/Car";
+import { Client, ClienteDTO } from "../../../src/domain/Client";
 import { InMemoryCarRepository } from "../../../src/infra/repositories/in-memory/CarRepo";
 import { InMemoryClientRepository } from "../../../src/infra/repositories/in-memory/ClientRepo";
+import { PrismaCarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
+import { PrismaClientRepository } from "../../../src/infra/repositories/prisma/ClientRepo";
 import { mockCarroIndisponivel } from "../../domain/mocks/CarMocks";
 import { mockCliente } from "../../domain/mocks/ClientMock";
 
@@ -12,17 +14,17 @@ describe("Devolução de carros", () => {
     const cliente = mockCliente(carro.props.placa);
 
     const repository = {
-      carro: new InMemoryCarRepository(),
-      cliente: new InMemoryClientRepository(),
+      carro: new PrismaCarRepository(),
+      cliente: new PrismaClientRepository(),
     };
 
     const aluguel = {
       placa: await repository.carro
         .registrar(carro)
-        .then((res: Car) => res.props.placa),
+        .then((res: CarroDTO) => res),
       cnh: await repository.cliente
         .registrar(cliente)
-        .then((res: Client) => res.props.cnh),
+        .then((res: ClienteDTO) => res),
     };
 
     const sut = new DevolucaoVeiculoUseCase(

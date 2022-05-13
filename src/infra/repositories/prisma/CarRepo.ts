@@ -1,22 +1,17 @@
 import { Carro } from "@prisma/client";
-import { IPrismaCarRepository } from "../../../application/repository/prisma/PrismaCarRepository";
-import { CarroDTO } from "../../../domain/abstract/Carro";
-import { Car } from "../../../domain/Car";
+import { CarRepository } from "../../../application/repository/CarRepository";
+import { Car, CarroDTO, CarroStatus } from "../../../domain/Car";
 import { prismaClient } from "./prismaClient";
 
-export class PrismaCarRepository implements IPrismaCarRepository {
+export class PrismaCarRepository implements CarRepository {
   async registrar(carro: Car): Promise<CarroDTO> {
     const response = await prismaClient()
       .carro.create({
         data: {
-          cor: carro.props.cor,
-          marca: carro.props.marca,
-          modelo: carro.props.modelo,
-          placa: carro.props.placa,
-          status: carro.props.status,
+          ...carro.props,
         },
       })
-      .then((res: Carro) => res);
+      .then((res: CarroDTO) => res);
 
     if (!response) {
       throw new Error("Não foi possível registrar carro");
@@ -25,10 +20,27 @@ export class PrismaCarRepository implements IPrismaCarRepository {
     return response;
   }
   async procurarPorPlaca(placa: string): Promise<Error | CarroDTO> {
-    throw new Error("Method not implemented.");
+    const response = await prismaClient()
+      .carro.findFirst({
+        where: {
+          placa,
+        },
+      })
+      .then((res: CarroDTO) => res);
+
+    return response;
   }
   async aluguelDeCarro(carro: Car): Promise<CarroDTO> {
-    throw new Error("Method not implemented.");
+    const response = await prismaClient().carro.update({
+      where: {
+        placa: carro.props.placa,
+      },
+      data: {
+        status: CarroStatus.indisponivel,
+      },
+    });
+
+    return response;
   }
   async reservaDeCarro(carro: Car): Promise<CarroDTO> {
     throw new Error("Method not implemented.");
