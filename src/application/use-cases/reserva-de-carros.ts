@@ -1,11 +1,7 @@
-import { CarroDTO } from "../../domain/abstract/Carro";
-import { ClienteDTO } from "../../domain/abstract/Cliente";
-import { Car } from "../../domain/Car";
-import { Client } from "../../domain/Client";
-import { CarRepository } from "../repository/CarRepository";
-import { ClientRepository } from "../repository/ClientRepository";
-import { IPrismaCarRepository } from "../repository/prisma/PrismaCarRepository";
-import { IPrismaClientRepository } from "../repository/prisma/PrismaClientRepository";
+import { Car, CarroDTO } from "../../domain/Car";
+import { Client, ClienteDTO } from "../../domain/Client";
+import { CarRepository } from "../../infra/repositories/prisma/CarRepo";
+import { ClientRepository } from "../../infra/repositories/prisma/ClientRepo";
 
 type ReservaDeCarroUseCaseDTO = {
   placaCarro: string;
@@ -14,8 +10,8 @@ type ReservaDeCarroUseCaseDTO = {
 
 export class ReservaDeCarroUseCase {
   constructor(
-    private readonly carRepo: IPrismaCarRepository,
-    private readonly clientRepo: IPrismaClientRepository
+    private readonly carRepo: CarRepository,
+    private readonly clientRepo: ClientRepository
   ) {}
 
   async execute(props: ReservaDeCarroUseCaseDTO) {
@@ -45,15 +41,12 @@ export class ReservaDeCarroUseCase {
       return new Error("Cliente não encontrado");
     }
 
+    const reservarCliente = Client.create(cliente);
+    const reservarCarro = Car.create(carro);
+
     const reserva = {
-      client: await this.clientRepo
-        .reservarCarro(cliente, carro.props.placa)
-        .then((res) => {
-          return res;
-        }),
-      car: await this.carRepo.reservaDeCarro(carro).then((res) => {
-        return res;
-      }),
+      client: await this.clientRepo.reservarCarro(reservarCliente, carro.placa),
+      car: await this.carRepo.reservaDeCarro(reservarCarro),
     };
 
     return reserva;

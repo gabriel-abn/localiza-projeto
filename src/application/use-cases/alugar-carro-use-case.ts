@@ -1,7 +1,7 @@
 import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
 import { Client, ClienteDTO } from "../../domain/Client";
-import { CarRepository } from "../repository/CarRepository";
-import { ClientRepository } from "../repository/ClientRepository";
+import { ICarRepository } from "../repository/CarRepository";
+import { IClientRepository } from "../repository/ClientRepository";
 
 type AlugarCarroUseCaseDTO = {
   cnh: string;
@@ -10,8 +10,8 @@ type AlugarCarroUseCaseDTO = {
 
 export class AlugarCarroUseCase {
   constructor(
-    private readonly clientRepo: ClientRepository,
-    private readonly carRepo: CarRepository
+    private readonly clientRepo: IClientRepository,
+    private readonly carRepo: ICarRepository
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
@@ -39,9 +39,6 @@ export class AlugarCarroUseCase {
     if (carro instanceof Error) {
       return new Error(carro.message);
     }
-
-    console.log(carro);
-
     if (
       carro.status == CarroStatus.indisponivel ||
       carro.status == CarroStatus.reservado

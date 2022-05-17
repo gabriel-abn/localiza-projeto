@@ -1,29 +1,27 @@
-import { Car } from "../../domain/Car";
-import { Client } from "../../domain/Client";
-import { CarRepository } from "../repository/CarRepository";
-import { ClientRepository } from "../repository/ClientRepository";
+import { Car, CarroDTO } from "../../domain/Car";
+import { Client, ClienteDTO } from "../../domain/Client";
+import { ICarRepository } from "../repository/CarRepository";
+import { IClientRepository } from "../repository/ClientRepository";
 
 type DevolucaoVeiculoUseCaseDTO = {
-  placa: string;
   cnh: string;
+  placaCarro: string;
 };
 
 export class DevolucaoVeiculoUseCase {
   constructor(
-    private readonly carRepo: CarRepository,
-    private readonly clientRepo: ClientRepository
+    private readonly carRepo: ICarRepository,
+    private readonly clientRepo: IClientRepository
   ) {}
 
   async execute(props: DevolucaoVeiculoUseCaseDTO) {
     const devolucao = {
       carro: await this.carRepo
-        .procurarPorPlaca(props.placa)
-        .then((res: Car) => res)
-        .catch((err: Error) => err),
+        .procurarPorPlaca(props.placaCarro)
+        .then((res: CarroDTO) => res),
       cliente: await this.clientRepo
         .procurarPorCNH(props.cnh)
-        .then((res: Client) => res)
-        .catch((err: Error) => err),
+        .then((res: ClienteDTO) => res),
     };
 
     if (devolucao.cliente instanceof Error) {
@@ -33,14 +31,18 @@ export class DevolucaoVeiculoUseCase {
       return new Error("Carro não encontrado: " + devolucao.carro.message);
     }
 
+    const request = {
+      client: Client.create(devolucao.cliente),
+      car: Car.create(devolucao.carro),
+    };
     const response = {
       carroLivre: await this.carRepo
-        .liberarCarro(devolucao.carro)
-        .then((res: Car) => res)
+        .liberarCarro(request.car)
+        .then((res: CarroDTO) => res)
         .catch((err: Error) => err),
       cliente: await this.clientRepo
-        .entregarCarro(devolucao.cliente)
-        .then((res: Client) => res)
+        .entregarCarro(request.client)
+        .then((res: ClienteDTO) => res)
         .catch((err: Error) => err),
     };
 

@@ -1,45 +1,61 @@
+import { AlugarCarroUseCase } from "../../../src/application/use-cases/alugar-carro-use-case";
 import { DevolucaoVeiculoUseCase } from "../../../src/application/use-cases/devolucao-veiculo";
-import { Car, CarroStatus, CarroDTO } from "../../../src/domain/Car";
+import { Car, CarroDTO, CarroStatus } from "../../../src/domain/Car";
 import { Client, ClienteDTO } from "../../../src/domain/Client";
-import { InMemoryCarRepository } from "../../../src/infra/repositories/in-memory/CarRepo";
-import { InMemoryClientRepository } from "../../../src/infra/repositories/in-memory/ClientRepo";
-import { PrismaCarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
-import { PrismaClientRepository } from "../../../src/infra/repositories/prisma/ClientRepo";
-import { mockCarroIndisponivel } from "../../domain/mocks/CarMocks";
+import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
+import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepo";
+import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
+import {
+  mockCarroDisponivel,
+  mockCarroIndisponivel,
+} from "../../domain/mocks/CarMocks";
 import { mockCliente } from "../../domain/mocks/ClientMock";
 
+const mocks = () => {
+  const carroDisponivel = mockCarroDisponivel();
+  const carroIndisponivel = mockCarroIndisponivel();
+
+  return { carroDisponivel, carroIndisponivel };
+};
+
+const makeSut = async (mockCar: Car) => {
+  const repositories = {
+    carro: new CarRepository(),
+    cliente: new ClientRepository(),
+  };
+  const requests = {
+    cnh: (await repositories.cliente.registrar(mockCliente())).cnh,
+    placaCarro: (await repositories.carro.registrar(mockCar)).placa,
+  };
+  const aluguel = await new AlugarCarroUseCase(
+    repositories.cliente,
+    repositories.carro
+  ).execute({ ...requests });
+
+  const sut = new DevolucaoVeiculoUseCase(
+    repositories.carro,
+    repositories.cliente
+  );
+  return { repositories, requests, aluguel, sut };
+};
+
 describe("Devolução de carros", () => {
+  beforeEach(async () => {
+    await prismaClient.carro.deleteMany({});
+    await prismaClient.cliente.deleteMany({});
+  });
   it("O carro deve alterar de estado assim que devolvido", async () => {
-    const carro = mockCarroIndisponivel();
-    const cliente = mockCliente(carro.props.placa);
-
-    const repository = {
-      carro: new PrismaCarRepository(),
-      cliente: new PrismaClientRepository(),
-    };
-
-    const aluguel = {
-      placa: await repository.carro
-        .registrar(carro)
-        .then((res: CarroDTO) => res),
-      cnh: await repository.cliente
-        .registrar(cliente)
-        .then((res: ClienteDTO) => res),
-    };
-
-    const sut = new DevolucaoVeiculoUseCase(
-      repository.carro,
-      repository.cliente
-    );
+    const { carroDisponivel } = mocks();
+    const { requests, sut } = await makeSut(carroDisponivel);
 
     const response = await sut
-      .execute({ ...aluguel })
-      .then((res: { carroLivre: Car; cliente: Client }) => res);
+      .execute({ ...requests })
+      .then((res: { carroLivre: CarroDTO; cliente: ClienteDTO }) => res);
 
     expect(response).toHaveProperty(
       "carroLivre.props.status",
       CarroStatus.disponivel
     );
-    expect(response).toHaveProperty("cliente.props.placaCarro", "LIVRE");
+    expect(response).toHaveProperty("cliente.props.carroPlaca", null);
   });
 });

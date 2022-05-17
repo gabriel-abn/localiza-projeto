@@ -1,5 +1,5 @@
 import { Client } from "../../domain/Client";
-import { ClientRepository } from "../repository/ClientRepository";
+import { IClientRepository } from "../repository/ClientRepository";
 
 type RegisterClientUseCaseDTO = {
   nome: string;
@@ -15,7 +15,7 @@ type RegisterClientUseCaseDTO = {
 };
 
 export class RegisterClientUseCase {
-  constructor(private readonly clientRepo: ClientRepository) {}
+  constructor(private readonly clientRepo: IClientRepository) {}
 
   async execute(props: RegisterClientUseCaseDTO) {
     const client = Client.create({ ...props });

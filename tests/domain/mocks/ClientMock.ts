@@ -1,15 +1,16 @@
+import faker from "@faker-js/faker";
 import { Client } from "../../../src/domain/Client";
 
 export const mockCliente = (placaCarro?: string): Client =>
   Client.create({
-    nome: "Teste cliente",
-    cartao: "12345678",
-    cnh: "CNH00999",
-    dataNascimento: new Date("2000-09-20"),
-    email: "gabriel.ab.nascimento",
-    endereco: "Rua Francisco Teles, 41",
-    telefone: "983989350",
-    cpf: "1234567",
+    nome: faker.name.findName(),
+    cartao: faker.finance.creditCardNumber(),
+    cnh: faker.datatype.uuid(),
+    dataNascimento: faker.date.past(),
+    email: faker.internet.email(),
+    endereco: faker.address.streetName(),
+    telefone: faker.phone.phoneNumber("031 9####-####"),
+    cpf: faker.phone.phoneNumber("###.###.###-##"),
     carroPlaca: placaCarro || null,
-    senhaAcesso: "",
+    senhaAcesso: faker.internet.password(),
   });

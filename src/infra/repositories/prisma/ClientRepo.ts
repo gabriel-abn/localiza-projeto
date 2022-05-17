@@ -1,10 +1,10 @@
-import { ClientRepository } from "../../../application/repository/ClientRepository";
+import { IClientRepository } from "../../../application/repository/ClientRepository";
 import { Client, ClienteDTO } from "../../../domain/Client";
 import { prismaClient } from "./prismaClient";
 
-export class PrismaClientRepository implements ClientRepository {
+export class ClientRepository implements IClientRepository {
   async registrar(cliente: Client): Promise<ClienteDTO> {
-    const response = await prismaClient().cliente.create({
+    const response = await prismaClient.cliente.create({
       data: {
         ...cliente.props,
       },
@@ -13,8 +13,8 @@ export class PrismaClientRepository implements ClientRepository {
     return { ...response };
   }
   async procurarPorCNH(cnh: string): Promise<Error | ClienteDTO> {
-    const response = await prismaClient()
-      .cliente.findFirst({
+    const response = await prismaClient.cliente
+      .findFirst({
         where: {
           cnh,
         },
@@ -24,7 +24,7 @@ export class PrismaClientRepository implements ClientRepository {
     return response;
   }
   async alugarCarro(cliente: Client, placaCarro: string): Promise<ClienteDTO> {
-    const response = await prismaClient().cliente.update({
+    const response = await prismaClient.cliente.update({
       where: {
         cnh: cliente.props.cnh,
       },
