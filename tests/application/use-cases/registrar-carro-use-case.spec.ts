@@ -1,6 +1,6 @@
 import { RegisterCarUseCase } from "../../../src/application/use-cases/register-car-use-case";
 import { Car, CarroStatus, CarroDTO } from "../../../src/domain/Car";
-import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
+import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepository";
 import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
 import {
   mockCarroDisponivel,
@@ -8,12 +8,6 @@ import {
 } from "../../domain/mocks/CarMocks";
 
 describe("Registrar carro no banco de dados", () => {
-  beforeAll(async () => {
-    await prismaClient.carro.deleteMany({});
-  });
-  afterAll(async () => {
-    await prismaClient.carro.deleteMany({});
-  });
   it("deve registrar carro e receber os dados do carro registrado", async () => {
     const carro = mockCarroDisponivel();
     const prismaCarRepo = new CarRepository();

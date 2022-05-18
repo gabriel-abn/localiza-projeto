@@ -1,5 +1,5 @@
 import { Client } from "../../domain/Client";
-import { IClientRepository } from "../repository/ClientRepository";
+import { IClientRepository } from "../repository/ClientRepositoryInterface";
 
 type RegisterClientUseCaseDTO = {
   nome: string;

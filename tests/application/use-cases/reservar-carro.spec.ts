@@ -1,8 +1,8 @@
 import { ReservaDeCarroUseCase } from "../../../src/application/use-cases/reserva-de-carros";
 import { Car, CarroDTO, CarroStatus } from "../../../src/domain/Car";
 import { ClienteDTO } from "../../../src/domain/Client";
-import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
-import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepo";
+import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepository";
+import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepository";
 import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
 import {
   mockCarroDisponivel,
@@ -29,12 +29,8 @@ const makeSut = async (mockCar: Car) => {
     cnh: (await repos.client.registrar(cliente)).cnh,
   };
   const procura = {
-    placaCarro: await repos.car
-      .procurarPorPlaca(insert.placaCarro)
-      .then((res: CarroDTO) => res.placa),
-    cnh: await repos.client
-      .procurarPorCNH(insert.cnh)
-      .then((res: ClienteDTO) => res.cnh),
+    placaCarro: (await repos.car.procurarPorPlaca(insert.placaCarro)).placa,
+    cnh: (await repos.client.procurarPorCNH(insert.cnh)).cnh,
   };
 
   const sut = new ReservaDeCarroUseCase(repos.car, repos.client);
@@ -43,22 +39,23 @@ const makeSut = async (mockCar: Car) => {
 };
 
 describe("Reserva de carro", () => {
-  beforeEach(async () => {
-    await prismaClient.carro.deleteMany({});
-    await prismaClient.cliente.deleteMany({});
-  });
   it("deve receber um cliente e um carro existentes e reservar o carro", async () => {
     const { carDisponivel } = mocks();
     const { sut, procura } = await makeSut(carDisponivel);
-    const response = await sut.execute({ ...procura });
+    const response = await sut
+      .execute({ ...procura })
+      .then((res: { client: ClienteDTO; car: CarroDTO }) => res);
 
     expect(response).toHaveProperty("car.status", CarroStatus.reservado);
-    expect(response).toHaveProperty("client.carroPlaca", "car.placa");
+    expect(response).toHaveProperty("client.carroPlaca", response.car.placa);
   });
-  it("não pode deixar reservar um carro sem o status disponivel", async () => {
+  it("não pode reservar um carro sem o status disponivel", async () => {
     const { carIndisponivel } = mocks();
     const { sut, procura } = await makeSut(carIndisponivel);
     const response = await sut.execute(procura);
-    expect(response).toHaveProperty("car", Error);
+    expect(response).not.toHaveProperty(
+      "client.carroPlaca",
+      carIndisponivel.props.placa
+    );
   });
 });

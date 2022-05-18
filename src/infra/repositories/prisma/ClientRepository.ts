@@ -1,4 +1,4 @@
-import { IClientRepository } from "../../../application/repository/ClientRepository";
+import { IClientRepository } from "../../../application/repository/ClientRepositoryInterface";
 import { Client, ClienteDTO } from "../../../domain/Client";
 import { prismaClient } from "./prismaClient";
 
@@ -12,7 +12,7 @@ export class ClientRepository implements IClientRepository {
 
     return { ...response };
   }
-  async procurarPorCNH(cnh: string): Promise<Error | ClienteDTO> {
+  async procurarPorCNH(cnh: string): Promise<ClienteDTO> {
     const response = await prismaClient.cliente
       .findFirst({
         where: {
@@ -39,10 +39,31 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
-  reservarCarro(cliente: Client, placaCarro: string): Promise<ClienteDTO> {
-    throw new Error("Method not implemented.");
+  async reservarCarro(
+    cliente: Client,
+    placaCarro: string
+  ): Promise<ClienteDTO> {
+    const response = await prismaClient.cliente.update({
+      where: {
+        cnh: cliente.props.cnh,
+      },
+      data: {
+        carroPlaca: placaCarro,
+      },
+    });
+
+    return response;
   }
-  entregarCarro(cliente: Client): Promise<ClienteDTO> {
-    throw new Error("Method not implemented.");
+  async entregarCarro(cliente: Client): Promise<ClienteDTO> {
+    const response = await prismaClient.cliente.update({
+      where: {
+        cnh: cliente.props.cnh,
+      },
+      data: {
+        carroPlaca: null,
+      },
+    });
+
+    return response;
   }
 }

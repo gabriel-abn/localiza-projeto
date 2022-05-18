@@ -2,8 +2,8 @@ import { AlugarCarroUseCase } from "../../../src/application/use-cases/alugar-ca
 import { DevolucaoVeiculoUseCase } from "../../../src/application/use-cases/devolucao-veiculo";
 import { Car, CarroDTO, CarroStatus } from "../../../src/domain/Car";
 import { Client, ClienteDTO } from "../../../src/domain/Client";
-import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepo";
-import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepo";
+import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepository";
+import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepository";
 import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
 import {
   mockCarroDisponivel,
@@ -40,22 +40,16 @@ const makeSut = async (mockCar: Car) => {
 };
 
 describe("Devolução de carros", () => {
-  beforeEach(async () => {
-    await prismaClient.carro.deleteMany({});
-    await prismaClient.cliente.deleteMany({});
-  });
   it("O carro deve alterar de estado assim que devolvido", async () => {
     const { carroDisponivel } = mocks();
     const { requests, sut } = await makeSut(carroDisponivel);
 
-    const response = await sut
-      .execute({ ...requests })
-      .then((res: { carroLivre: CarroDTO; cliente: ClienteDTO }) => res);
+    const response = await sut.execute({ ...requests });
 
     expect(response).toHaveProperty(
-      "carroLivre.props.status",
+      "carroLivre.status",
       CarroStatus.disponivel
     );
-    expect(response).toHaveProperty("cliente.props.carroPlaca", null);
+    expect(response).toHaveProperty("cliente.carroPlaca", null);
   });
 });

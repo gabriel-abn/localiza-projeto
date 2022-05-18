@@ -1,7 +1,7 @@
-import { Car, CarroDTO } from "../../domain/Car";
+import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
 import { Client, ClienteDTO } from "../../domain/Client";
-import { CarRepository } from "../../infra/repositories/prisma/CarRepo";
-import { ClientRepository } from "../../infra/repositories/prisma/ClientRepo";
+import { CarRepository } from "../../infra/repositories/prisma/CarRepository";
+import { ClientRepository } from "../../infra/repositories/prisma/ClientRepository";
 
 type ReservaDeCarroUseCaseDTO = {
   placaCarro: string;
@@ -19,12 +19,9 @@ export class ReservaDeCarroUseCase {
       .procurarPorPlaca(props.placaCarro)
       .then((car: CarroDTO) => {
         return car;
-      })
-      .catch((err: Error) => {
-        return err;
       });
 
-    if (carro instanceof Error) {
+    if (!carro) {
       return new Error("Carro não cadastrado");
     }
 
@@ -32,17 +29,18 @@ export class ReservaDeCarroUseCase {
       .procurarPorCNH(props.cnh)
       .then((client: ClienteDTO) => {
         return client;
-      })
-      .catch((err: Error) => {
-        return err;
       });
 
-    if (cliente instanceof Error) {
+    if (!cliente) {
       return new Error("Cliente não encontrado");
     }
 
-    const reservarCliente = Client.create(cliente);
-    const reservarCarro = Car.create(carro);
+    if (carro.status != CarroStatus.disponivel) {
+      return new Error("Carro ocupado");
+    }
+
+    const reservarCliente = Client.create({ ...cliente });
+    const reservarCarro = Car.create({ ...carro });
 
     const reserva = {
       client: await this.clientRepo.reservarCarro(reservarCliente, carro.placa),

@@ -1,7 +1,7 @@
 import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
 import { Client, ClienteDTO } from "../../domain/Client";
-import { ICarRepository } from "../repository/CarRepository";
-import { IClientRepository } from "../repository/ClientRepository";
+import { ICarRepository } from "../repository/CarRepositoryInterface";
+import { IClientRepository } from "../repository/ClientRepositoryInterface";
 
 type AlugarCarroUseCaseDTO = {
   cnh: string;
@@ -19,25 +19,19 @@ export class AlugarCarroUseCase {
       .procurarPorCNH(props.cnh)
       .then((res: ClienteDTO) => {
         return res;
-      })
-      .catch((err: Error) => {
-        return err;
       });
 
-    if (cliente instanceof Error) {
-      return new Error(cliente.message);
+    if (!cliente) {
+      return new Error("Cliente não encontrado");
     }
     const carro = await this.carRepo
       .procurarPorPlaca(props.placaCarro)
       .then((res: CarroDTO) => {
         return res;
-      })
-      .catch((err: Error) => {
-        return err;
       });
 
-    if (carro instanceof Error) {
-      return new Error(carro.message);
+    if (!carro) {
+      return new Error("Carro não encontrado");
     }
     if (
       carro.status == CarroStatus.indisponivel ||
@@ -46,8 +40,8 @@ export class AlugarCarroUseCase {
       return new Error("Carro já está em uso.");
     }
     const request = {
-      client: Client.create(cliente),
-      car: Car.create(carro),
+      client: Client.create({ ...cliente }),
+      car: Car.create({ ...carro }),
     };
 
     const response = {
@@ -58,8 +52,7 @@ export class AlugarCarroUseCase {
         }),
       carro: await this.carRepo
         .aluguelDeCarro(request.car)
-        .then((res: CarroDTO) => res)
-        .catch((err: Error) => err),
+        .then((res: CarroDTO) => res),
     };
 
     return response;

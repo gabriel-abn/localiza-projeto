@@ -1,7 +1,7 @@
 import { Car, CarroDTO } from "../../domain/Car";
 import { Client, ClienteDTO } from "../../domain/Client";
-import { ICarRepository } from "../repository/CarRepository";
-import { IClientRepository } from "../repository/ClientRepository";
+import { ICarRepository } from "../repository/CarRepositoryInterface";
+import { IClientRepository } from "../repository/ClientRepositoryInterface";
 
 type DevolucaoVeiculoUseCaseDTO = {
   cnh: string;
@@ -32,8 +32,8 @@ export class DevolucaoVeiculoUseCase {
     }
 
     const request = {
-      client: Client.create(devolucao.cliente),
-      car: Car.create(devolucao.carro),
+      client: Client.create({ ...devolucao.cliente }),
+      car: Car.create({ ...devolucao.carro }),
     };
     const response = {
       carroLivre: await this.carRepo

@@ -1,5 +1,5 @@
 import { Car, CarroDTO } from "../../domain/Car";
-import { ICarRepository } from "../repository/CarRepository";
+import { ICarRepository } from "../repository/CarRepositoryInterface";
 
 type RegisterCarUseCaseDTO = {
   modelo: string;

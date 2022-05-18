@@ -1,4 +1,4 @@
-import { ICarRepository } from "../../../application/repository/CarRepository";
+import { ICarRepository } from "../../../application/repository/CarRepositoryInterface";
 import { Car, CarroDTO, CarroStatus } from "../../../domain/Car";
 import { prismaClient } from "./prismaClient";
 
@@ -18,7 +18,7 @@ export class CarRepository implements ICarRepository {
 
     return response;
   }
-  async procurarPorPlaca(placa: string): Promise<Error | CarroDTO> {
+  async procurarPorPlaca(placa: string): Promise<CarroDTO> {
     const response = await prismaClient.carro
       .findFirst({
         where: {
@@ -42,9 +42,27 @@ export class CarRepository implements ICarRepository {
     return response;
   }
   async reservaDeCarro(carro: Car): Promise<CarroDTO> {
-    throw new Error("Method not implemented.");
+    const response = await prismaClient.carro.update({
+      where: {
+        placa: carro.props.placa,
+      },
+      data: {
+        status: CarroStatus.reservado,
+      },
+    });
+
+    return response;
   }
   async liberarCarro(carro: Car): Promise<CarroDTO> {
-    throw new Error("Method not implemented.");
+    const response = await prismaClient.carro.update({
+      where: {
+        placa: carro.props.placa,
+      },
+      data: {
+        status: CarroStatus.disponivel,
+      },
+    });
+
+    return response;
   }
 }
