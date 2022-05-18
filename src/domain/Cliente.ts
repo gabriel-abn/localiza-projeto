@@ -13,12 +13,12 @@ export type ClienteDTO = {
   carroPlaca: string;
 };
 
-export class Client extends Entity<ClienteDTO> {
+export class Cliente extends Entity<ClienteDTO> {
   constructor(props: ClienteDTO, _id?: string) {
     super(props, _id);
   }
 
   static create(props: ClienteDTO, _id?: string) {
-    return new Client(props, _id);
+    return new Cliente(props, _id);
   }
 }

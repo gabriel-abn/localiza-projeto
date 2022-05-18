@@ -1,14 +1,14 @@
 import { ReservaDeCarroUseCase } from "../../../src/application/use-cases/reserva-de-carros";
-import { Car, CarroDTO, CarroStatus } from "../../../src/domain/Car";
-import { ClienteDTO } from "../../../src/domain/Client";
-import { CarRepository } from "../../../src/infra/repositories/prisma/CarRepository";
-import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepository";
+import { Carro, CarroDTO, CarroStatus } from "../../../src/domain/Carro";
+import { ClienteDTO } from "../../../src/domain/Cliente";
+import { CarRepository } from "../../../src/infra/repositories/prisma/CarroRepository";
+import { ClientRepository } from "../../../src/infra/repositories/prisma/ClienteRepository";
 import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
 import {
   mockCarroDisponivel,
   mockCarroIndisponivel,
-} from "../../domain/mocks/CarMocks";
-import { mockCliente } from "../../domain/mocks/ClientMock";
+} from "../../domain/mocks/CarroMocks";
+import { mockCliente } from "../../domain/mocks/ClienteMock";
 
 const mocks = () => {
   const cliente = mockCliente();
@@ -17,7 +17,7 @@ const mocks = () => {
 
   return { cliente, carDisponivel, carIndisponivel };
 };
-const makeSut = async (mockCar: Car) => {
+const makeSut = async (mockCar: Carro) => {
   const { cliente } = mocks();
 
   const repos = {

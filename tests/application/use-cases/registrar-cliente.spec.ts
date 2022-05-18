@@ -1,8 +1,8 @@
-import { RegisterClientUseCase } from "../../../src/application/use-cases/register-client-use-case";
-import { ClienteDTO } from "../../../src/domain/Client";
-import { ClientRepository } from "../../../src/infra/repositories/prisma/ClientRepository";
+import { RegisterClientUseCase } from "../../../src/application/use-cases/registrar-cliente";
+import { ClienteDTO } from "../../../src/domain/Cliente";
+import { ClientRepository } from "../../../src/infra/repositories/prisma/ClienteRepository";
 import { prismaClient } from "../../../src/infra/repositories/prisma/prismaClient";
-import { mockCliente } from "../../domain/mocks/ClientMock";
+import { mockCliente } from "../../domain/mocks/ClienteMock";
 
 describe("Cadastro de cliente no banco de dados", () => {
   it("deve cadastrar um cliente no banco de dados sem carro", async () => {

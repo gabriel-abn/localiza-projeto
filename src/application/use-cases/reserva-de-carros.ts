@@ -1,7 +1,7 @@
-import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
-import { Client, ClienteDTO } from "../../domain/Client";
-import { CarRepository } from "../../infra/repositories/prisma/CarRepository";
-import { ClientRepository } from "../../infra/repositories/prisma/ClientRepository";
+import { Carro, CarroDTO, CarroStatus } from "../../domain/Carro";
+import { Cliente, ClienteDTO } from "../../domain/Cliente";
+import { CarRepository } from "../../infra/repositories/prisma/CarroRepository";
+import { ClientRepository } from "../../infra/repositories/prisma/ClienteRepository";
 
 type ReservaDeCarroUseCaseDTO = {
   placaCarro: string;
@@ -39,8 +39,8 @@ export class ReservaDeCarroUseCase {
       return new Error("Carro ocupado");
     }
 
-    const reservarCliente = Client.create({ ...cliente });
-    const reservarCarro = Car.create({ ...carro });
+    const reservarCliente = Cliente.create({ ...cliente });
+    const reservarCarro = Carro.create({ ...carro });
 
     const reserva = {
       client: await this.clientRepo.reservarCarro(reservarCliente, carro.placa),

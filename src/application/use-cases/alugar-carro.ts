@@ -1,7 +1,7 @@
-import { Car, CarroDTO, CarroStatus } from "../../domain/Car";
-import { Client, ClienteDTO } from "../../domain/Client";
-import { ICarRepository } from "../repository/CarRepositoryInterface";
-import { IClientRepository } from "../repository/ClientRepositoryInterface";
+import { Carro, CarroDTO, CarroStatus } from "../../domain/Carro";
+import { Cliente, ClienteDTO } from "../../domain/Cliente";
+import { ICarRepository } from "../repository/CarroRepositoryInterface";
+import { IClientRepository } from "../repository/ClienteRepositoryInterface";
 
 type AlugarCarroUseCaseDTO = {
   cnh: string;
@@ -40,8 +40,8 @@ export class AlugarCarroUseCase {
       return new Error("Carro já está em uso.");
     }
     const request = {
-      client: Client.create({ ...cliente }),
-      car: Car.create({ ...carro }),
+      client: Cliente.create({ ...cliente }),
+      car: Carro.create({ ...carro }),
     };
 
     const response = {

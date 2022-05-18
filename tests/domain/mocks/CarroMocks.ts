@@ -1,8 +1,8 @@
-import { Car, CarroStatus } from "../../../src/domain/Car";
+import { Carro, CarroStatus } from "../../../src/domain/Carro";
 import { faker } from "@faker-js/faker";
 
-export const mockCarroDisponivel = (): Car =>
-  Car.create({
+export const mockCarroDisponivel = (): Carro =>
+  Carro.create({
     placa: faker.vehicle.vrm(),
     marca: faker.vehicle.manufacturer(),
     modelo: faker.vehicle.model(),
@@ -10,8 +10,8 @@ export const mockCarroDisponivel = (): Car =>
     status: CarroStatus.disponivel,
   });
 
-export const mockCarroReservado = (): Car =>
-  Car.create({
+export const mockCarroReservado = (): Carro =>
+  Carro.create({
     placa: faker.vehicle.vrm(),
     marca: faker.vehicle.manufacturer(),
     modelo: faker.vehicle.model(),
@@ -19,8 +19,8 @@ export const mockCarroReservado = (): Car =>
     status: CarroStatus.reservado,
   });
 
-export const mockCarroIndisponivel = (): Car =>
-  Car.create({
+export const mockCarroIndisponivel = (): Carro =>
+  Carro.create({
     placa: faker.vehicle.vrm(),
     marca: faker.vehicle.manufacturer(),
     modelo: faker.vehicle.model(),

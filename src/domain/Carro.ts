@@ -14,12 +14,12 @@ export type CarroDTO = {
   cor: string;
 };
 
-export class Car extends Entity<CarroDTO> {
+export class Carro extends Entity<CarroDTO> {
   constructor(props: CarroDTO, _id?: string) {
     super(props, _id);
   }
 
   static create(props: CarroDTO, _id?: string) {
-    return new Car(props, _id);
+    return new Carro(props, _id);
   }
 }

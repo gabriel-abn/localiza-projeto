@@ -1,9 +1,9 @@
-import { IClientRepository } from "../../../application/repository/ClientRepositoryInterface";
-import { Client, ClienteDTO } from "../../../domain/Client";
+import { IClientRepository } from "../../../application/repository/ClienteRepositoryInterface";
+import { Cliente, ClienteDTO } from "../../../domain/Cliente";
 import { prismaClient } from "./prismaClient";
 
 export class ClientRepository implements IClientRepository {
-  async registrar(cliente: Client): Promise<ClienteDTO> {
+  async registrar(cliente: Cliente): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.create({
       data: {
         ...cliente.props,
@@ -23,7 +23,7 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
-  async alugarCarro(cliente: Client, placaCarro: string): Promise<ClienteDTO> {
+  async alugarCarro(cliente: Cliente, placaCarro: string): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.update({
       where: {
         cnh: cliente.props.cnh,
@@ -40,7 +40,7 @@ export class ClientRepository implements IClientRepository {
     return response;
   }
   async reservarCarro(
-    cliente: Client,
+    cliente: Cliente,
     placaCarro: string
   ): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.update({
@@ -54,7 +54,7 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
-  async entregarCarro(cliente: Client): Promise<ClienteDTO> {
+  async entregarCarro(cliente: Cliente): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.update({
       where: {
         cnh: cliente.props.cnh,

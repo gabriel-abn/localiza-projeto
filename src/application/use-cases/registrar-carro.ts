@@ -1,5 +1,5 @@
-import { Car, CarroDTO } from "../../domain/Car";
-import { ICarRepository } from "../repository/CarRepositoryInterface";
+import { Carro, CarroDTO } from "../../domain/Carro";
+import { ICarRepository } from "../repository/CarroRepositoryInterface";
 
 type RegisterCarUseCaseDTO = {
   modelo: string;
@@ -13,7 +13,7 @@ export class RegisterCarUseCase {
   constructor(private readonly carRepo: ICarRepository) {}
 
   async execute(props: RegisterCarUseCaseDTO) {
-    const car = Car.create({ ...props });
+    const car = Carro.create({ ...props });
 
     const response = await this.carRepo
       .registrar(car)

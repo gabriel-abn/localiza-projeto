@@ -1,8 +1,8 @@
 import faker from "@faker-js/faker";
-import { Client } from "../../../src/domain/Client";
+import { Cliente } from "../../../src/domain/Cliente";
 
-export const mockCliente = (placaCarro?: string): Client =>
-  Client.create({
+export const mockCliente = (placaCarro?: string): Cliente =>
+  Cliente.create({
     nome: faker.name.findName(),
     cartao: faker.finance.creditCardNumber(),
     cnh: faker.datatype.uuid(),

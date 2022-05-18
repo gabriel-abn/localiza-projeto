@@ -1,9 +1,9 @@
-import { ICarRepository } from "../../../application/repository/CarRepositoryInterface";
-import { Car, CarroDTO, CarroStatus } from "../../../domain/Car";
+import { ICarRepository } from "../../../application/repository/CarroRepositoryInterface";
+import { Carro, CarroDTO, CarroStatus } from "../../../domain/Carro";
 import { prismaClient } from "./prismaClient";
 
 export class CarRepository implements ICarRepository {
-  async registrar(carro: Car): Promise<CarroDTO> {
+  async registrar(carro: Carro): Promise<CarroDTO> {
     const response = await prismaClient.carro
       .create({
         data: {
@@ -29,7 +29,7 @@ export class CarRepository implements ICarRepository {
 
     return response;
   }
-  async aluguelDeCarro(carro: Car): Promise<CarroDTO> {
+  async aluguelDeCarro(carro: Carro): Promise<CarroDTO> {
     const response = await prismaClient.carro.update({
       where: {
         placa: carro.props.placa,
@@ -41,7 +41,7 @@ export class CarRepository implements ICarRepository {
 
     return response;
   }
-  async reservaDeCarro(carro: Car): Promise<CarroDTO> {
+  async reservaDeCarro(carro: Carro): Promise<CarroDTO> {
     const response = await prismaClient.carro.update({
       where: {
         placa: carro.props.placa,
@@ -53,7 +53,7 @@ export class CarRepository implements ICarRepository {
 
     return response;
   }
-  async liberarCarro(carro: Car): Promise<CarroDTO> {
+  async liberarCarro(carro: Carro): Promise<CarroDTO> {
     const response = await prismaClient.carro.update({
       where: {
         placa: carro.props.placa,
