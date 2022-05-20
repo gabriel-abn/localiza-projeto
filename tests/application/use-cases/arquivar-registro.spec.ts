@@ -3,8 +3,8 @@ import { DevolucaoVeiculoUseCase } from "../../../src/application/use-cases/devo
 import { RegisterCarUseCase } from "../../../src/application/use-cases/registrar-carro";
 import { RegisterClientUseCase } from "../../../src/application/use-cases/registrar-cliente";
 import { ReservaDeCarroUseCase } from "../../../src/application/use-cases/reserva-de-carros";
-import { Carro, CarroDTO } from "../../../src/domain/Carro";
-import { Cliente, ClienteDTO } from "../../../src/domain/Cliente";
+import { CarroDTO } from "../../../src/domain/Carro";
+import { ClienteDTO } from "../../../src/domain/Cliente";
 import { CarRepository } from "../../../src/infra/repositories/prisma/CarroRepository";
 import { ClientRepository } from "../../../src/infra/repositories/prisma/ClienteRepository";
 import { HistoricoRepository } from "../../../src/infra/repositories/prisma/HistoricoRepository";

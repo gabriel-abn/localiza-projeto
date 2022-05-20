@@ -38,12 +38,10 @@ export class DevolucaoVeiculoUseCase {
     const response = {
       carroLivre: await this.carRepo
         .liberarCarro(request.car)
-        .then((res: CarroDTO) => res)
-        .catch((err: Error) => err),
+        .then((res: CarroDTO) => res),
       cliente: await this.clientRepo
         .entregarCarro(request.client)
-        .then((res: ClienteDTO) => res)
-        .catch((err: Error) => err),
+        .then((res: ClienteDTO) => res),
     };
 
     return response;

@@ -1,6 +1,12 @@
 import { CarroDTO } from "../../domain/Carro";
 import { ClienteDTO } from "../../domain/Cliente";
 
+export enum TipoArquivo {
+  aluguel = "ALUGUEL",
+  reserva = "RESERVA",
+  devolucao = "DEVOLUCAO",
+}
+
 export type HistoricoDTO = {
   clienteCnh: string;
   carroPlaca: string;
