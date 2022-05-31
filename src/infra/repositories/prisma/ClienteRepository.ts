@@ -3,6 +3,15 @@ import { Cliente, ClienteDTO } from "../../../domain/Cliente";
 import { prismaClient } from "./prismaClient";
 
 export class ClientRepository implements IClientRepository {
+  async procurarTodosClientes(): Promise<ClienteDTO[]> {
+    const response = await prismaClient.cliente.findMany({});
+
+    if (!response) {
+      throw new Error("Sem clientes cadastrados");
+    }
+
+    return response;
+  }
   async registrar(cliente: Cliente): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.create({
       data: {

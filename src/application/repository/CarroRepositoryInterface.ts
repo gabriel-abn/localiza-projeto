@@ -6,4 +6,5 @@ export interface ICarRepository {
   aluguelDeCarro(carro: Carro): Promise<CarroDTO>;
   reservaDeCarro(carro: Carro): Promise<CarroDTO>;
   liberarCarro(carro: Carro): Promise<CarroDTO>;
+  retornarTodosCarros(): Promise<CarroDTO[]>;
 }

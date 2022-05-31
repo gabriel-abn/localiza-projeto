@@ -6,4 +6,5 @@ export interface IClientRepository {
   alugarCarro(cliente: Cliente, placaCarro: string): Promise<ClienteDTO>;
   reservarCarro(cliente: Cliente, placaCarro: string): Promise<ClienteDTO>;
   entregarCarro(cliente: Cliente): Promise<ClienteDTO>;
+  procurarTodosClientes(): Promise<ClienteDTO[]>;
 }

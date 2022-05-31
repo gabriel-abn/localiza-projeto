@@ -20,8 +20,8 @@ export class RegisterCarUseCase {
       .then((res: CarroDTO) => {
         return res;
       })
-      .catch((err) => {
-        return new Error(err);
+      .catch((err: Error) => {
+        return new Error("Não foi possível cadastrar o carro.");
       });
 
     return response;

@@ -3,6 +3,15 @@ import { Carro, CarroDTO, CarroStatus } from "../../../domain/Carro";
 import { prismaClient } from "./prismaClient";
 
 export class CarRepository implements ICarRepository {
+  async retornarTodosCarros(): Promise<CarroDTO[]> {
+    const response = await prismaClient.carro.findMany({});
+
+    if (!response) {
+      throw new Error("Não existem carros disponíveis");
+    }
+
+    return response;
+  }
   async registrar(carro: Carro): Promise<CarroDTO> {
     const response = await prismaClient.carro
       .create({

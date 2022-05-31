@@ -24,6 +24,25 @@ Após ter criado o arquivo de variáveis do ambiente, basta executar o comando a
 yarn prisma migrate dev
 ```
 
+Para executar a aplicação, basta executar o comando abaixo para rodar o servidor na porta 3000,
+determinada no arquivo [server.ts](src/main/server.ts).
+
+```
+yarn dev
+```
+
+### Rotas
+
+#### Carro
+
+- POST: /carro -> Registrar um carro
+- GET: /carro/all -> Retornar todos os carros
+
+#### Cliente
+
+- POST: /cliente -> Registrar um cliente
+- GET: /cliente/all -> Retornar todos os clientes
+
 Para executar os testes definidos no Back-End, basta executar o comando do Jest definido no arquivo [package.json](package.json) para verificar a execução dos testes e comunicação com o banco de dados.
 
 ```

@@ -19,15 +19,10 @@ export class RegisterClientUseCase {
 
   async execute(props: RegisterClientUseCaseDTO) {
     const client = Cliente.create({ ...props });
-    const response = await this.clientRepo
-      .registrar(client)
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        return new Error(err);
-      });
-
+    const response = await this.clientRepo.registrar(client).then((res) => {
+      return res;
+    });
+    console.log(response);
     return response;
   }
 }
