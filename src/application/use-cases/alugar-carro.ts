@@ -2,6 +2,7 @@ import { Carro, CarroDTO, CarroStatus } from "../../domain/Carro";
 import { Cliente, ClienteDTO } from "../../domain/Cliente";
 import { ICarRepository } from "../repository/CarroRepositoryInterface";
 import { IClientRepository } from "../repository/ClienteRepositoryInterface";
+import { IHistoricoRepository } from "../repository/HistoricoRepositoryInterface";
 
 type AlugarCarroUseCaseDTO = {
   cnh: string;
@@ -11,7 +12,8 @@ type AlugarCarroUseCaseDTO = {
 export class AlugarCarroUseCase {
   constructor(
     private readonly clientRepo: IClientRepository,
-    private readonly carRepo: ICarRepository
+    private readonly carRepo: ICarRepository,
+    private readonly historicoRepo: IHistoricoRepository
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
@@ -54,6 +56,8 @@ export class AlugarCarroUseCase {
         .aluguelDeCarro(request.car)
         .then((res: CarroDTO) => res),
     };
+
+    await this.historicoRepo.arquivarRegistro(response.carro, response.cliente);
 
     return response;
   }

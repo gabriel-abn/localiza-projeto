@@ -28,7 +28,13 @@ export class HistoricoRepository implements IHistoricoRepository {
 
     return response;
   }
-  async recuperarRegistro(placa: string, cnh: string): Promise<HistoricoDTO> {
-    throw new Error("Method not implemented.");
+  async recuperarRegistro(cnh: string): Promise<HistoricoDTO> {
+    const response = await prismaClient.historico.findFirst({
+      where: {
+        clienteCnh: cnh,
+      },
+    });
+
+    return response;
   }
 }

@@ -17,5 +17,5 @@ export type HistoricoDTO = {
 
 export interface IHistoricoRepository {
   arquivarRegistro(carro: CarroDTO, cliente: ClienteDTO): Promise<HistoricoDTO>;
-  recuperarRegistro(placa: string, cnh: string): Promise<HistoricoDTO>;
+  recuperarRegistro(cnh: string): Promise<HistoricoDTO>;
 }
