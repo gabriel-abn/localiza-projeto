@@ -25,4 +25,18 @@ export class RegistrarClienteController {
       .catch((err: Error) => err);
     return res.json(result);
   }
+
+  async login(req: Request, res: Response) {
+    const { email, senhaAcesso } = req.body;
+    const repo = new ClientRepository();
+    const response = await repo.login(email);
+    if(response.senhaAcesso === senhaAcesso){
+      return res.json(response);
+    }else{
+      return res.json({
+        status: 401,
+        message: "Dados inválidos"
+      });
+    }
+  }
 }

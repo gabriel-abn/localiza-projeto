@@ -32,4 +32,15 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
+  async login(email: string): Promise<ClienteDTO> {
+    const response = await prismaClient.cliente
+      .findFirst({
+        where: {
+          email
+        },
+      })
+      .then((res: ClienteDTO) => res);
+
+    return response;
+  }
 }
