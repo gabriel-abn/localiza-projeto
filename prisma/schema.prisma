@@ -38,6 +38,7 @@ model Historico {
   carro         Carro     @relation(fields: [carroPlaca], references: [placa], onUpdate: Cascade)
   clienteCnh    String
   carroPlaca    String
+  ativo         Boolean
   id            String    @id @default(uuid())
   dataAlocacao  DateTime  @default(now())
   dataDevolucao DateTime?

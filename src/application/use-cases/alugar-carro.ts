@@ -9,6 +9,7 @@ type AlugarCarroUseCaseDTO = {
   placaCarro: string
   dataAlocacao: Date
   dataDevolucao: Date
+  ativo: boolean
 };
 
 export class AlugarCarroUseCase {
@@ -19,7 +20,7 @@ export class AlugarCarroUseCase {
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
-    const { dataAlocacao, dataDevolucao } = props;
+    const { dataAlocacao, dataDevolucao, ativo } = props;
 
     const cliente = await this.clientRepo
       .procurarPorCNH(props.cnh)
@@ -56,7 +57,7 @@ export class AlugarCarroUseCase {
         .then((res: CarroDTO) => res),
     };
 
-    const historyResponse = await this.historicoRepo.arquivarRegistro({ carroPlaca: carro.placa, clienteCnh: cliente.cnh, dataAlocacao, dataDevolucao });
+    const historyResponse = await this.historicoRepo.arquivarRegistro({ carroPlaca: carro.placa, clienteCnh: cliente.cnh, dataAlocacao, dataDevolucao, ativo });
 
     return {
       ... response,

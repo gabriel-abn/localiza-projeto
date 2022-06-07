@@ -19,6 +19,7 @@ export class HistoricoRepository implements IHistoricoRepository {
             placa: history.carroPlaca,
           },
         },
+        ativo: true
       },
     });
 

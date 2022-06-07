@@ -6,6 +6,7 @@ type RegisterHistoryUseCaseDTO = {
   carroPlaca: string;
   dataAlocacao: Date;
   dataDevolucao?: Date;
+  ativo: boolean
 };
 
 export class RegisterHistoryUseCase {

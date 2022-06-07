@@ -5,6 +5,7 @@ export type HistoryDTO = {
   carroPlaca: string;
   dataAlocacao: Date;
   dataDevolucao?: Date;
+  ativo: boolean
 };
 
 export class History extends Entity<HistoryDTO> {

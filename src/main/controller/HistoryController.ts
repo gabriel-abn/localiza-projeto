@@ -7,18 +7,19 @@ import { ClientRepository } from "../../infra/repositories/prisma/ClienteReposit
 
 export class HistoryController {
   async register(req: Request, res: Response) {
-    const { clienteCnh, carroPlaca, dataAlocacao } = req.body;
+    const { clienteCnh, carroPlaca, dataAlocacao, ativo } = req.body;
     const repo = new HistoricoRepository();
     let result = await new RegisterHistoryUseCase(repo).execute({
       carroPlaca,
       clienteCnh,
-      dataAlocacao
+      dataAlocacao,
+      ativo
     });
     return res.json(result);
   }
 
   async alugar(req: Request, res: Response) {
-    const { clienteCnh, carroPlaca, dataAlocacao, dataDevolucao } = req.body;
+    const { clienteCnh, carroPlaca, dataAlocacao, dataDevolucao, ativo } = req.body;
     const historyRepo = new HistoricoRepository();
     const carRepo = new CarRepository();
     const clienteRepo = new ClientRepository();
@@ -27,7 +28,8 @@ export class HistoryController {
       cnh: clienteCnh,
       placaCarro: carroPlaca,
       dataAlocacao,
-      dataDevolucao
+      dataDevolucao,
+      ativo
     })
     return res.json({
       ... resultCar
