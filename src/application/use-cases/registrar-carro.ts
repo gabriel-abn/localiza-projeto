@@ -2,12 +2,15 @@ import { Carro, CarroDTO } from "../../domain/Carro";
 import { ICarRepository } from "../repository/CarroRepositoryInterface";
 
 type RegisterCarUseCaseDTO = {
-  modelo: string;
-  marca: string;
-  placa: string;
-  status: string;
-  cor: string;
+  modelo: string
+  marca: string
+  placa: string
+  status: string
+  cor: string
+  ano: number
   image: string
+  price: number
+  motor: number
 };
 
 export class RegisterCarUseCase {

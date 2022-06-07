@@ -12,6 +12,7 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
+
   async registrar(cliente: Cliente): Promise<ClienteDTO> {
     const response = await prismaClient.cliente.create({
       data: {
@@ -21,6 +22,7 @@ export class ClientRepository implements IClientRepository {
 
     return { ...response };
   }
+
   async procurarPorCNH(cnh: string): Promise<ClienteDTO> {
     const response = await prismaClient.cliente
       .findFirst({
@@ -32,6 +34,7 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
+
   async login(email: string): Promise<ClienteDTO> {
     const response = await prismaClient.cliente
       .findFirst({

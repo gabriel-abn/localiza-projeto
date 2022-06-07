@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { RegisterHistoryUseCase } from "../../application/use-cases/registrar-history";
+import { AlugarCarroUseCase } from "../../application/use-cases/alugar-carro";
+import { CarRepository } from "../../infra/repositories/prisma/CarroRepository";
 import { HistoricoRepository } from "../../infra/repositories/prisma/HistoricoRepository";
+import { ClientRepository } from "../../infra/repositories/prisma/ClienteRepository";
 
 export class HistoryController {
   async register(req: Request, res: Response) {
@@ -12,6 +15,23 @@ export class HistoryController {
       dataAlocacao
     });
     return res.json(result);
+  }
+
+  async alugar(req: Request, res: Response) {
+    const { clienteCnh, carroPlaca, dataAlocacao, dataDevolucao } = req.body;
+    const historyRepo = new HistoricoRepository();
+    const carRepo = new CarRepository();
+    const clienteRepo = new ClientRepository();
+
+    let resultCar = await new AlugarCarroUseCase(clienteRepo ,carRepo, historyRepo).execute({
+      cnh: clienteCnh,
+      placaCarro: carroPlaca,
+      dataAlocacao,
+      dataDevolucao
+    })
+    return res.json({
+      ... resultCar
+    });
   }
 
   async getHistoryByCNH(req: Request, res: Response) {

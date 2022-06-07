@@ -7,12 +7,15 @@ export enum CarroStatus {
 }
 
 export type CarroDTO = {
-  marca: string;
-  modelo: string;
-  placa: string;
-  status: string;
-  cor: string;
+  marca: string
+  modelo: string
+  placa: string
+  status: string
+  cor: string
   image: string
+  ano: number
+  price: number
+  motor: number
 };
 
 export class Carro extends Entity<CarroDTO> {

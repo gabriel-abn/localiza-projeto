@@ -8,7 +8,10 @@ export const mockCarroDisponivel = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.disponivel,
-    image: 'https://image.fake.com/'
+    image: 'https://image.fake.com/',
+    price: 250,
+    ano: 2005,
+    motor: 1.5
   });
 
 export const mockCarroReservado = (): Carro =>
@@ -18,7 +21,10 @@ export const mockCarroReservado = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.reservado,
-    image: 'https://image.fake.com/'
+    image: 'https://image.fake.com/',
+    price: 250,
+    ano: 2005,
+    motor: 1.5
   });
 
 export const mockCarroIndisponivel = (): Carro =>
@@ -28,5 +34,8 @@ export const mockCarroIndisponivel = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.indisponivel,
-    image: 'https://image.fake.com/'
+    image: 'https://image.fake.com/',
+    price: 250,
+    ano: 2005,
+    motor: 1.5
   });

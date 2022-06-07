@@ -27,6 +27,9 @@ model Carro {
   status    String
   cor       String
   image     String
+  ano       Int
+  price     Float
+  motor     Float
   Historico Historico[]
 }
 

@@ -5,8 +5,10 @@ import { IClientRepository } from "../repository/ClienteRepositoryInterface";
 import { IHistoricoRepository } from "../repository/HistoricoRepositoryInterface";
 
 type AlugarCarroUseCaseDTO = {
-  cnh: string;
-  placaCarro: string;
+  cnh: string
+  placaCarro: string
+  dataAlocacao: Date
+  dataDevolucao: Date
 };
 
 export class AlugarCarroUseCase {
@@ -17,6 +19,8 @@ export class AlugarCarroUseCase {
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
+    const { dataAlocacao, dataDevolucao } = props;
+
     const cliente = await this.clientRepo
       .procurarPorCNH(props.cnh)
       .then((res: ClienteDTO) => {
@@ -47,18 +51,16 @@ export class AlugarCarroUseCase {
     };
 
     const response = {
-      cliente: await this.clientRepo
-        .alugarCarro(request.client, request.car.props.placa)
-        .then((res) => {
-          return res;
-        }),
       carro: await this.carRepo
         .aluguelDeCarro(request.car)
         .then((res: CarroDTO) => res),
     };
 
-    await this.historicoRepo.arquivarRegistro({ carroPlaca: carro.placa, clienteCnh: cliente.cnh, dataAlocacao: new Date() });
+    const historyResponse = await this.historicoRepo.arquivarRegistro({ carroPlaca: carro.placa, clienteCnh: cliente.cnh, dataAlocacao, dataDevolucao });
 
-    return response;
+    return {
+      ... response,
+      ... historyResponse
+    };
   }
 }

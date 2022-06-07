@@ -39,11 +39,9 @@ export class ReservaDeCarroUseCase {
       return new Error("Carro ocupado");
     }
 
-    const reservarCliente = Cliente.create({ ...cliente });
     const reservarCarro = Carro.create({ ...carro });
 
     const reserva = {
-      client: await this.clientRepo.reservarCarro(reservarCliente, carro.placa),
       car: await this.carRepo.reservaDeCarro(reservarCarro),
     };
 
