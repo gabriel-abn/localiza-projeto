@@ -3,15 +3,11 @@ import { IClientRepository } from "../repository/ClienteRepositoryInterface";
 
 type RegisterClientUseCaseDTO = {
   nome: string;
-  cpf: string;
   cnh: string;
-  dataNascimento: Date;
-  endereco: string;
   telefone: string;
   email: string;
-  cartao: string;
   senhaAcesso: string;
-  carroPlaca: string;
+  isAdmin?: boolean;
 };
 
 export class RegisterClientUseCase {
@@ -22,7 +18,6 @@ export class RegisterClientUseCase {
     const response = await this.clientRepo.registrar(client).then((res) => {
       return res;
     });
-    console.log(response);
     return response;
   }
 }

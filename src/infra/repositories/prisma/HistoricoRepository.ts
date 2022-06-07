@@ -1,26 +1,22 @@
-import {
-  HistoricoDTO,
-  IHistoricoRepository,
+import { 
+  IHistoricoRepository 
 } from "../../../application/repository/HistoricoRepositoryInterface";
-import { CarroDTO } from "../../../domain/Carro";
-import { ClienteDTO } from "../../../domain/Cliente";
+import { HistoryDTO } from "../../../domain/History";
+
 import { prismaClient } from "./prismaClient";
 
 export class HistoricoRepository implements IHistoricoRepository {
-  async arquivarRegistro(
-    carro: CarroDTO,
-    cliente: ClienteDTO
-  ): Promise<HistoricoDTO> {
+  async arquivarRegistro(history: HistoryDTO): Promise<HistoryDTO> {
     const response = await prismaClient.historico.create({
       data: {
         cliente: {
           connect: {
-            cnh: cliente.cnh,
+            cnh: history.clienteCnh,
           },
         },
         carro: {
           connect: {
-            placa: carro.placa,
+            placa: history.carroPlaca,
           },
         },
       },
@@ -28,10 +24,19 @@ export class HistoricoRepository implements IHistoricoRepository {
 
     return response;
   }
-  async recuperarRegistro(cnh: string): Promise<HistoricoDTO> {
-    const response = await prismaClient.historico.findFirst({
+  async getHistoryByCNH(cnh: string): Promise<HistoryDTO[]> {
+    const response = await prismaClient.historico.findMany({
       where: {
         clienteCnh: cnh,
+      },
+    });
+
+    return response;
+  }
+  async getHistoryByPlaca(placa: string): Promise<HistoryDTO[]> {
+    const response = await prismaClient.historico.findMany({
+      where: {
+        carroPlaca: placa,
       },
     });
 

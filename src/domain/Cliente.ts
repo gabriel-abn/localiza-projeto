@@ -2,15 +2,11 @@ import { Entity } from "./core/Entity";
 
 export type ClienteDTO = {
   nome: string;
-  cpf: string;
   cnh: string;
-  dataNascimento: Date;
-  endereco: string;
   telefone: string;
   email: string;
-  cartao: string;
   senhaAcesso: string;
-  carroPlaca: string;
+  isAdmin?: boolean
 };
 
 export class Cliente extends Entity<ClienteDTO> {

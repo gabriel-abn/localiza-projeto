@@ -57,7 +57,7 @@ export class AlugarCarroUseCase {
         .then((res: CarroDTO) => res),
     };
 
-    await this.historicoRepo.arquivarRegistro(response.carro, response.cliente);
+    await this.historicoRepo.arquivarRegistro({ carroPlaca: carro.placa, clienteCnh: cliente.cnh, dataAlocacao: new Date() });
 
     return response;
   }

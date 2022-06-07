@@ -11,18 +11,13 @@ datasource db {
 }
 
 model Cliente {
-  nome           String
-  cpf            String
-  cnh            String      @id
-  dataNascimento DateTime
-  endereco       String
-  telefone       String
-  email          String
-  cartao         String
-  senhaAcesso    String
-  placa          Carro?      @relation(fields: [carroPlaca], references: [placa])
-  carroPlaca     String?
-  Historico      Historico[]
+  nome        String
+  cnh         String      @id
+  telefone    String
+  email       String
+  senhaAcesso String
+  isAdmin     Boolean
+  Historico   Historico[]
 }
 
 model Carro {
@@ -31,7 +26,7 @@ model Carro {
   placa     String      @id
   status    String
   cor       String
-  Cliente   Cliente[]
+  image     String
   Historico Historico[]
 }
 

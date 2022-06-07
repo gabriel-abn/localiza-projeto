@@ -7,6 +7,7 @@ type RegisterCarUseCaseDTO = {
   placa: string;
   status: string;
   cor: string;
+  image: string
 };
 
 export class RegisterCarUseCase {

@@ -8,6 +8,7 @@ export const mockCarroDisponivel = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.disponivel,
+    image: 'https://image.fake.com/'
   });
 
 export const mockCarroReservado = (): Carro =>
@@ -17,6 +18,7 @@ export const mockCarroReservado = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.reservado,
+    image: 'https://image.fake.com/'
   });
 
 export const mockCarroIndisponivel = (): Carro =>
@@ -26,4 +28,5 @@ export const mockCarroIndisponivel = (): Carro =>
     modelo: faker.vehicle.model(),
     cor: faker.vehicle.color(),
     status: CarroStatus.indisponivel,
+    image: 'https://image.fake.com/'
   });
