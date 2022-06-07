@@ -7,7 +7,7 @@ type RegisterClientUseCaseDTO = {
   telefone: string;
   email: string;
   senhaAcesso: string;
-  isAdmin?: boolean;
+  isAdmin: boolean;
 };
 
 export class RegisterClientUseCase {

@@ -32,47 +32,4 @@ export class ClientRepository implements IClientRepository {
 
     return response;
   }
-  async alugarCarro(cliente: Cliente, placaCarro: string): Promise<ClienteDTO> {
-    const response = await prismaClient.cliente.update({
-      where: {
-        cnh: cliente.props.cnh,
-      },
-      data: {
-        placa: {
-          connect: {
-            placa: placaCarro,
-          },
-        },
-      },
-    });
-
-    return response;
-  }
-  async reservarCarro(
-    cliente: Cliente,
-    placaCarro: string
-  ): Promise<ClienteDTO> {
-    const response = await prismaClient.cliente.update({
-      where: {
-        cnh: cliente.props.cnh,
-      },
-      data: {
-        carroPlaca: placaCarro,
-      },
-    });
-
-    return response;
-  }
-  async entregarCarro(cliente: Cliente): Promise<ClienteDTO> {
-    const response = await prismaClient.cliente.update({
-      where: {
-        cnh: cliente.props.cnh,
-      },
-      data: {
-        carroPlaca: null,
-      },
-    });
-
-    return response;
-  }
 }

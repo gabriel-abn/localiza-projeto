@@ -7,5 +7,5 @@ export const historyRoute = Router();
 
 historyRoute.post("/history", new HistoryController().register);
 
-historyRoute.get("/history/user/:cnh", new GetAllCarros().handler);
-historyRoute.get("/history/car/:placa", new GetCarroController().handler);
+historyRoute.get("/history/user/:cnh", new HistoryController().getHistoryByCNH);
+historyRoute.get("/history/car/:placa", new HistoryController().getHistoryByPlaca);

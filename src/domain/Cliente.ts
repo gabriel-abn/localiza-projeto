@@ -6,7 +6,7 @@ export type ClienteDTO = {
   telefone: string;
   email: string;
   senhaAcesso: string;
-  isAdmin?: boolean
+  isAdmin: boolean
 };
 
 export class Cliente extends Entity<ClienteDTO> {

@@ -10,7 +10,3 @@ clienteRoutes.post("/cliente", new RegistrarClienteController().handler);
 
 clienteRoutes.get("/cliente/all", new GetAllClientes().handler);
 clienteRoutes.get("/cliente/:cnh", new GetClienteController().handler);
-clienteRoutes.get(
-  "/cliente/:cnh/historico",
-  new GetClienteHistoricoController().handler
-);
