@@ -1,6 +1,6 @@
 import { Carro, CarroDTO, CarroStatus } from "../../domain/Carro";
 import { ClienteDTO } from "../../domain/Cliente";
-import { HistoryDTO } from "../../domain/History";
+import { History, HistoryDTO } from "../../domain/History";
 import { ICarRepository } from "../repository/CarroRepositoryInterface";
 import { IClientRepository } from "../repository/ClienteRepositoryInterface";
 import { IHistoricoRepository } from "../repository/HistoricoRepositoryInterface";
@@ -52,6 +52,7 @@ export class AlugarCarroUseCase {
 
     const request = {
       car: Carro.create({ ...carro }),
+      history: History.create({ ...props })
     };
 
     const response = {
@@ -59,13 +60,7 @@ export class AlugarCarroUseCase {
         .aluguelDeCarro(request.car)
         .then((res: CarroDTO) => res),
       history: await this.historicoRepo
-        .arquivarRegistro({
-          ativo,
-          carroPlaca,
-          clienteCnh,
-          dataAlocacao,
-          dataDevolucao
-        })
+        .arquivarRegistro(request.history)
         .then((res: HistoryDTO) => res)
     };
 
