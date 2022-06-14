@@ -30,7 +30,7 @@ export class RegistrarClienteController {
     const { email, senhaAcesso } = req.body;
     const repo = new ClientRepository();
     const response = await repo.login(email);
-    if(response.senhaAcesso === senhaAcesso){
+    if(response?.senhaAcesso === senhaAcesso){
       return res.json(response);
     }else{
       return res.json({
