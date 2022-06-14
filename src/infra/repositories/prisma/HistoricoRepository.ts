@@ -1,25 +1,15 @@
 import { 
   IHistoricoRepository 
 } from "../../../application/repository/HistoricoRepositoryInterface";
-import { HistoryDTO } from "../../../domain/History";
+import { History, HistoryDTO } from "../../../domain/History";
 
 import { prismaClient } from "./prismaClient";
 
 export class HistoricoRepository implements IHistoricoRepository {
-  async arquivarRegistro(history: HistoryDTO): Promise<HistoryDTO> {
+  async arquivarRegistro(history: History): Promise<HistoryDTO> {
     const response = await prismaClient.historico.create({
       data: {
-        cliente: {
-          connect: {
-            cnh: history.clienteCnh,
-          },
-        },
-        carro: {
-          connect: {
-            placa: history.carroPlaca,
-          },
-        },
-        ativo: true
+        ... history
       },
     });
 

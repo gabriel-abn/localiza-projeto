@@ -5,6 +5,7 @@ export const historyRoute = Router();
 
 historyRoute.post("/history", new HistoryController().register);
 historyRoute.post("/alugar", new HistoryController().alugar);
+historyRoute.post("/devolver", new HistoryController().devolver);
 
 
 historyRoute.get("/history/user/:cnh", new HistoryController().getHistoryByCNH);
