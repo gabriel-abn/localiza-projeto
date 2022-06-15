@@ -63,6 +63,7 @@ export class HistoryController {
     const historyRepo = new HistoricoRepository();
     const carRepo = new CarRepository();
 
+
     let resultCar = await new RenovateVeiculoUseCase(carRepo, historyRepo).execute({
       id,
       carroPlaca,
