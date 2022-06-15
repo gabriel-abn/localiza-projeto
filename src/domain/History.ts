@@ -1,6 +1,7 @@
 import { Entity } from "./core/Entity";
 
 export type HistoryDTO = {
+  id?: string;
   clienteCnh: string;
   carroPlaca: string;
   dataAlocacao: Date;

@@ -34,12 +34,12 @@ model Carro {
 }
 
 model Historico {
-  cliente       Cliente   @relation(fields: [clienteCnh], references: [cnh])
-  carro         Carro     @relation(fields: [carroPlaca], references: [placa], onUpdate: Cascade)
+  cliente       Cliente  @relation(fields: [clienteCnh], references: [cnh])
+  carro         Carro    @relation(fields: [carroPlaca], references: [placa], onUpdate: Cascade)
   clienteCnh    String
   carroPlaca    String
   ativo         Boolean
-  id            String    @id @default(uuid())
-  dataAlocacao  DateTime  @default(now())
-  dataDevolucao DateTime?
+  id            String   @id @default(uuid())
+  dataAlocacao  DateTime
+  dataDevolucao DateTime
 }

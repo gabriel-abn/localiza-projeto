@@ -3,28 +3,28 @@ import { History, HistoryDTO } from "../../domain/History";
 import { ICarRepository } from "../repository/CarroRepositoryInterface";
 import { IHistoricoRepository } from "../repository/HistoricoRepositoryInterface";
 
-interface DevolucaoVeiculoUseCaseDTO extends HistoryDTO {};
+interface RenovateVeiculoUseCaseDTO extends HistoryDTO {};
 
-export class DevolucaoVeiculoUseCase {
+export class RenovateVeiculoUseCase {
   constructor(
     private readonly carRepo: ICarRepository,
     private readonly historyRepo: IHistoricoRepository
   ) {}
 
-  async execute(props: DevolucaoVeiculoUseCaseDTO) {
-    const devolucao = {
+  async execute(props: RenovateVeiculoUseCaseDTO) {
+    const renovate = {
       carro: await this.carRepo
         .procurarPorPlaca(props.carroPlaca)
         .then((res: CarroDTO) => res),
     };
 
-    if (devolucao.carro instanceof Error) {
-      return new Error("Carro não encontrado: " + devolucao.carro.message);
+    if (renovate.carro instanceof Error) {
+      return new Error("Carro não encontrado: " + renovate.carro.message);
     }
 
     const request = {
       history: History.create({ ...props }),
-      car: Carro.create({ ...devolucao.carro }),
+      car: Carro.create({ ...renovate.carro }),
     };
     
     const response = {
@@ -32,7 +32,7 @@ export class DevolucaoVeiculoUseCase {
         .liberarCarro(request.car)
         .then((res: CarroDTO) => res),
       history: await this.historyRepo
-        .devolverVeiculo(request.history)
+        .renovarVeiculo(request.history)
         .then((res: HistoryDTO) => res),
     };
 

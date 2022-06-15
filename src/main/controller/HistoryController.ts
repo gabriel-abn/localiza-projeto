@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { RegisterHistoryUseCase } from "../../application/use-cases/registrar-history";
 import { AlugarCarroUseCase } from "../../application/use-cases/alugar-carro";
 import { DevolucaoVeiculoUseCase } from "../../application/use-cases/devolucao-veiculo";
+import { RenovateVeiculoUseCase } from "../../application/use-cases/renovate-veiculo";
 import { CarRepository } from "../../infra/repositories/prisma/CarroRepository";
 import { HistoricoRepository } from "../../infra/repositories/prisma/HistoricoRepository";
 import { ClientRepository } from "../../infra/repositories/prisma/ClienteRepository";
@@ -26,7 +27,7 @@ export class HistoryController {
     const carRepo = new CarRepository();
     const clienteRepo = new ClientRepository();
 
-    let resultCar = await new AlugarCarroUseCase(clienteRepo ,carRepo, historyRepo).execute({
+    let resultCar = await new AlugarCarroUseCase(clienteRepo, carRepo, historyRepo).execute({
       clienteCnh,
       carroPlaca,
       dataAlocacao,
@@ -40,16 +41,35 @@ export class HistoryController {
   }
 
   async devolver(req: Request, res: Response) {
-    const { carroPlaca, dataAlocacao, dataDevolucao, clienteCnh }: HistoryDTO = req.body;
+    const { carroPlaca, dataAlocacao, dataDevolucao, clienteCnh, id }: HistoryDTO = req.body;
     const historyRepo = new HistoricoRepository();
     const carRepo = new CarRepository();
 
     let resultCar = await new DevolucaoVeiculoUseCase(carRepo, historyRepo).execute({
+      id,
       carroPlaca,
       clienteCnh,
       dataAlocacao,
       dataDevolucao,
       ativo: false
+    })
+    return res.json({
+      ... resultCar
+    });
+  }
+
+  async renovate(req: Request, res: Response) {
+    const { carroPlaca, dataAlocacao, dataDevolucao, clienteCnh, id }: HistoryDTO = req.body;
+    const historyRepo = new HistoricoRepository();
+    const carRepo = new CarRepository();
+
+    let resultCar = await new RenovateVeiculoUseCase(carRepo, historyRepo).execute({
+      id,
+      carroPlaca,
+      clienteCnh,
+      dataAlocacao,
+      dataDevolucao,
+      ativo: true
     })
     return res.json({
       ... resultCar

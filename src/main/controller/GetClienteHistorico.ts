@@ -3,10 +3,10 @@ import { HistoricoRepository } from "../../infra/repositories/prisma/HistoricoRe
 
 export class GetClienteHistoricoController {
   async handler(req: Request, res: Response) {
-    const { clienteCnh, carroPlaca, dataAlocacao, ativo } = req.body;
-    const repo = new HistoricoRepository();
-    const response = await repo.arquivarRegistro({carroPlaca, clienteCnh, dataAlocacao, ativo});
+    // const { clienteCnh, carroPlaca, dataAlocacao, ativo } = req.body;
+    // const repo = new HistoricoRepository();
+    // const response = await repo.arquivarRegistro();
 
-    return res.json(response);
+    // return res.json(response);
   }
 }

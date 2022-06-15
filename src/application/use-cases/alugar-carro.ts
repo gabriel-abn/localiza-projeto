@@ -21,8 +21,6 @@ export class AlugarCarroUseCase {
   ) {}
 
   async execute(props: AlugarCarroUseCaseDTO) {
-    const { dataAlocacao, dataDevolucao, ativo, carroPlaca, clienteCnh } = props;
-
     const cliente = await this.clientRepo
       .procurarPorCNH(props.clienteCnh)
       .then((res: ClienteDTO) => {
